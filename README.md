@@ -11,13 +11,13 @@ I use Arch btw.
 
 You need to set an environment variable for you groq api key to have acess to llm stuff; it requires an account
 
-- `GROQ_API_KEY` (Groq API key)[https://console.groq.com/keys]
+- `GROQ_API_KEY` [Groq API key](https://console.groq.com/keys)
 
-You can also setup (other models and providers)[https://github.com/karthink/gptel?tab=readme-ov-file#setup] such as OpenAI, Anthropic and Kagi
+You can also setup [other models and providers](https://github.com/karthink/gptel?tab=readme-ov-file#setup) such as OpenAI, Anthropic and Kagi
 
 #### Github access
 
-For Igist, follow (this)[https://github.com/KarimAziev/igist?tab=readme-ov-file#auth]
+For Igist, follow [this](https://github.com/KarimAziev/igist?tab=readme-ov-file#auth)
 
 #### Basic dependencies
 
@@ -89,14 +89,14 @@ Also, I don't like to have tons of different files for GNU Emacs configuration, 
 ## Installation
 
 ```bash
-git clone https://github.com/PHAredes/dotfiles.git ~/git
-cd ~/git/dotfiles
+git clone https://github.com/PHAredes/dotfiles.git ~/dotfiles
+cd ~/dotfiles
 stow dotfiles # This will symlink everything into your home directory
 stow .emacs.d # This will symlink the emacs configuration directory
 stow .emacs # This will symlink the emacs configuration "init.el" file
 ```
 
-I recommend you `rm -rf ~/git/.git` and do your own thing from there.
+I recommend you `rm -rf ~/dotfiles/.git` and do your own thing from there.
 
 ## Credits
 

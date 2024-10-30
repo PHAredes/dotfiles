@@ -225,9 +225,11 @@
 (evil-define-key '(normal visual) 'global (kbd "<leader> g") 'gptel-menu)
 
 ;; 0x0
-(require 'dired) ;; fix that log error
-(defalias 'upload-0x0 'ee-0x0-upload-region)
-(evil-define-key '(normal visual) 'global (kbd "<leader> u") 'upload-0x0)
+(evil-define-key '(normal visual) 'global (kbd "<leader> s u") 'upload-0x0)
+
+
+;; igist
+(evil-define-key '(normal visual) 'global (kbd "<leader> s g") 'igist-dispatch)
 
 ;; Helper functions
 (defun rename-file-and-buffer ()
@@ -387,3 +389,7 @@ With a prefix argument run `ee-copy-preceding-tag-to-kill-ring' instead."
 
 ;; igist setup
 (setq igist-auth-marker 'igist)
+
+;; 0x0 setup
+(require 'dired)
+(defalias 'upload-0x0 'ee-0x0-upload-region)
