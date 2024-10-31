@@ -51,6 +51,7 @@ Most Emacs packages will be automatically installed via package.el, including:
 - igist
 - autothemer
 - eev
+- symbol-overlay
 
 ### Fonts
 

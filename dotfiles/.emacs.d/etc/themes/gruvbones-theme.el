@@ -7,7 +7,7 @@
  gruvbones "Inspired by Gruvbox tones with shades of neutral grey"
 
  ((((class color) (min-colors #xFFFFFF))) ;; We're only concerned with graphical Emacs, although it is fine for most modern temu
-  
+
   ;; Define our color palette
   (bg              "#282828")
   (fg              "#ebdbb2")
@@ -17,7 +17,7 @@
   (water           "#83a598")
   (blossom         "#d3869b")
   (sky             "#83c07c")
-  
+
   ;; Additional colors (derived or complementary)
   (bg-light        "#3c3836")
   (bg-dark         "#1d2021")
@@ -51,7 +51,7 @@
   (hl-line                             (:background bg-light))
   (homoglyph                           (:foreground leaf))
   (internal-border                     (:background bg-dark))
-  (line-number                         (:foreground ngrey-light))
+  (line-number                         (:foreground ngrey-mid))
   (line-number-current-line            (:foreground rose :bold t))
   (lv-separator                        (:background bg-dark :foreground water))
   (match                               (:background water :foreground bg-dark))
@@ -104,9 +104,9 @@
   (font-lock-warning-face              (:foreground rose :bold t))
   (font-lock-builtin-face              (:foreground orange))
   (font-lock-constant-face             (:foreground blossom))
-  (font-lock-comment-face              (:foreground ngrey-light))
-  (font-lock-comment-delimiter-face    (:foreground ngrey-light))
-  (font-lock-doc-markup-face           (:foreground ngrey-light))
+  (font-lock-comment-face              (:foreground ngrey-mid))
+  (font-lock-comment-delimiter-face    (:foreground ngrey-mid))
+  (font-lock-doc-markup-face           (:foreground ngrey-mid))
   (font-lock-string-face               (:foreground fg-mid :italic t))
   (font-lock-keyword-face              (:foreground rose :bold t))
   (font-lock-function-name-face        (:foreground fg-dark))
@@ -176,12 +176,22 @@
   (agda2-highlight-function-face              (:foreground fg))
   (agda2-highlight-inductive-constructor-face (:foreground fg :weight 'semi-bold))
   (agda2-highlight-coinductive-constructor-face (:foreground fg :bold t))
-  (agda2-highlight-module-face                (:foreground fg-mid :italic t))
+  (agda2-highlight-module-face                (:foreground fg-light :italic t))
   (agda2-highlight-postulate-face             (:foreground orange))
   (agda2-highlight-primitive-face             (:foreground sky :italic t))
   (agda2-highlight-record-face                (:foreground wood :italic t))
-  ))
 
+  ;; symbol-mode
+  (symbol-overlay-default-face (:underline t))
+  (symbol-overlay-face-1 (:underline (:color leaf)))
+  (symbol-overlay-face-2 (:underline (:color wood)))
+  (symbol-overlay-face-3 (:underline (:color rose)))
+  (symbol-overlay-face-4 (:underline (:color sky)))
+  (symbol-overlay-face-5 (:underline (:color orange)))
+  (symbol-overlay-face-6 (:underline (:color blossom)))
+  (symbol-overlay-face-7 (:underline (:color aqua)))
+  (symbol-overlay-face-8 (:underline (:color yellow)))
+ ))
 ;;;###autoload
 (and load-file-name
      (boundp 'custom-theme-load-path)

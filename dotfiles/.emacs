@@ -7,9 +7,8 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("046a2b81d13afddae309930ef85d458c4f5d278a69448e5a5261a5c78598e012" "d445c7b530713eac282ecdeea07a8fa59692c83045bf84dd112dd738c7bcad1d" "871b064b53235facde040f6bdfa28d03d9f4b966d8ce28fb1725313731a2bcc8" "5ec088e25ddfcfe37b6ae7712c9cb37fd283ea5df7ac609d007cafa27dab6c64" "d43860349c9f7a5b96a090ecf5f698ff23a8eb49cd1e5c8a83bb2068f24ea563" "0f220ea77c6355c411508e71225680ecb3e308b4858ef6c8326089d9ea94b86f" "72ed8b6bffe0bfa8d097810649fd57d2b598deef47c992920aef8b5d9599eefe" "d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7" "3e374bb5eb46eb59dbd92578cae54b16de138bc2e8a31a2451bf6fdb0f3fd81b" default))
- '(doom-modeline-check-simple-format t nil nil "Customized with use-package doom-modeline")
  '(package-selected-packages
-   '(0x0 vterm igist show-conses autothemer gptel markdown-mode cape doom-modeline which-key-posframe which-key nerd-icons evil-commentary mini-frame bind-key eglot eldoc erc faceup idlwave jsonrpc org project soap-client tramp use-package verilog-mode xref eev evil))
+   '(symbol-overlay 0x0 vterm igist show-conses autothemer gptel markdown-mode cape doom-modeline which-key-posframe which-key nerd-icons evil-commentary mini-frame bind-key eglot eldoc erc faceup idlwave jsonrpc org project soap-client tramp use-package verilog-mode xref eev evil))
  '(package-vc-selected-packages
    '((show-conses :vc-backend Git :url "https://github.com/edrx/show-conses")))
  '(tool-bar-mode nil))
@@ -96,7 +95,8 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Cascadia Code" :foundry "SAJA" :slant normal :weight regular :height 120 :width normal))))
  '(font-lock-comment-delimiter-face ((t (:slant italic))))
- '(font-lock-comment-face ((t (:slant italic)))))
+ '(font-lock-comment-face ((t (:slant italic))))
+ '(symbol-overlay-default-face ((t (:inherit highlight :underline t)))))
 
 ;; Autothemer setup
 (unless (package-installed-p 'autothemer)
@@ -149,7 +149,7 @@
 	  "--video-margin-ratio-bottom=0.15"
 	  "--sub-font-size=35")))
 
-;; ================= Aditional Packages ===================
+;; ================= Motion Extension ===================
 ;; Evil mode
 
 ;; Download Evil
@@ -171,6 +171,12 @@
 
 ;; Re-enable the eev keymap every time eev-mode is activated
 (add-hook 'eev-mode-hook #'evil-normalize-keymaps)
+
+(unless (package-installed-p 'symbol-overlay)
+  (package-install 'symbol-overlay))
+
+(require 'symbol-overlay)
+(symbol-overlay-mode 1)
 
 ;; ================== Evil-commentary Setup =====================
 
@@ -195,6 +201,13 @@
 
 (global-set-key (kbd "C-<tab>") 'dabbrev-completion)
 (global-set-key (kbd "C-c C-l") 'eval-buffer)
+
+;; symbol-overlay
+(global-set-key (kbd "M-i") 'symbol-overlay-put)
+(global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)
+(global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
+(global-set-key (kbd "<f7>") 'symbol-overlay-mode)
+(global-set-key (kbd "<leader> h") 'symbol-overlay-remove-all)
 
 ;; files
 (evil-define-key 'normal 'global (kbd "<leader> f f") 'find-file)
