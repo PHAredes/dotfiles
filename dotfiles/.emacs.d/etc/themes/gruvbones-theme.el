@@ -4,10 +4,10 @@
 (require 'autothemer)
 
 (autothemer-deftheme
- gruvbones "Inspired by Gruvbox tones, with Neovim Zenbones and Megumacs ideas"
+ gruvbones "Inspired by Gruvbox tones with shades of neutral grey"
 
- ((((class color) (min-colors #xFFFFFF))) ;; We're only concerned with graphical Emacs
-
+ ((((class color) (min-colors #xFFFFFF))) ;; We're only concerned with graphical Emacs, although it is fine for most modern temu
+  
   ;; Define our color palette
   (bg              "#282828")
   (fg              "#ebdbb2")
@@ -17,11 +17,13 @@
   (water           "#83a598")
   (blossom         "#d3869b")
   (sky             "#83c07c")
-
+  
   ;; Additional colors (derived or complementary)
   (bg-light        "#3c3836")
   (bg-dark         "#1d2021")
   (fg-dark         "#a89984")
+  (ngrey-mid       "#727272")
+  (ngrey-light     "#a8a8a8")
   (fg-mid          "#bdae93")
   (fg-light        "#fbf1c7")
   (gray            "#928374")
@@ -30,7 +32,6 @@
   (purple          "#b16286")
   (aqua            "#8ec07c")
   )
-
 
  ;; Customize faces
  (
@@ -50,7 +51,7 @@
   (hl-line                             (:background bg-light))
   (homoglyph                           (:foreground leaf))
   (internal-border                     (:background bg-dark))
-  (line-number                         (:foreground gray))
+  (line-number                         (:foreground ngrey-light))
   (line-number-current-line            (:foreground rose :bold t))
   (lv-separator                        (:background bg-dark :foreground water))
   (match                               (:background water :foreground bg-dark))
@@ -103,9 +104,9 @@
   (font-lock-warning-face              (:foreground rose :bold t))
   (font-lock-builtin-face              (:foreground orange))
   (font-lock-constant-face             (:foreground blossom))
-  (font-lock-comment-face              (:foreground fg-dark))
-  (font-lock-comment-delimiter-face    (:foreground fg-dark))
-  (font-lock-doc-markup-face           (:foreground fg-dark))
+  (font-lock-comment-face              (:foreground ngrey-light))
+  (font-lock-comment-delimiter-face    (:foreground ngrey-light))
+  (font-lock-doc-markup-face           (:foreground ngrey-light))
   (font-lock-string-face               (:foreground fg-mid :italic t))
   (font-lock-keyword-face              (:foreground rose :bold t))
   (font-lock-function-name-face        (:foreground fg-dark))
@@ -170,7 +171,7 @@
   (agda2-highlight-generalizable-variable-face  (:foreground fg))
   (agda2-highlight-bound-variable-face        (:foreground fg :italic))
   (agda2-highlight-number-face                (:foreground orange))
-  (agda2-highlight-symbol-face                (:foreground fg))
+  (agda2-highlight-symbol-face                (:foreground ngrey-mid))
   (agda2-highlight-datatype-face              (:foreground water))
   (agda2-highlight-function-face              (:foreground fg))
   (agda2-highlight-inductive-constructor-face (:foreground fg :weight 'semi-bold))
