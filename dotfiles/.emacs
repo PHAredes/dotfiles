@@ -8,9 +8,11 @@
  '(custom-safe-themes
    '("046a2b81d13afddae309930ef85d458c4f5d278a69448e5a5261a5c78598e012" "d445c7b530713eac282ecdeea07a8fa59692c83045bf84dd112dd738c7bcad1d" "871b064b53235facde040f6bdfa28d03d9f4b966d8ce28fb1725313731a2bcc8" "5ec088e25ddfcfe37b6ae7712c9cb37fd283ea5df7ac609d007cafa27dab6c64" "d43860349c9f7a5b96a090ecf5f698ff23a8eb49cd1e5c8a83bb2068f24ea563" "0f220ea77c6355c411508e71225680ecb3e308b4858ef6c8326089d9ea94b86f" "72ed8b6bffe0bfa8d097810649fd57d2b598deef47c992920aef8b5d9599eefe" "d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7" "3e374bb5eb46eb59dbd92578cae54b16de138bc2e8a31a2451bf6fdb0f3fd81b" default))
  '(package-selected-packages
-   '(symbol-overlay 0x0 vterm igist show-conses autothemer gptel markdown-mode cape doom-modeline which-key-posframe which-key nerd-icons evil-commentary mini-frame bind-key eglot eldoc erc faceup idlwave jsonrpc org project soap-client tramp use-package verilog-mode xref eev evil))
+   '(kkp magit-section lsp-mode flycheck symbol-overlay 0x0 vterm igist show-conses autothemer gptel markdown-mode cape doom-modeline which-key-posframe which-key nerd-icons evil-commentary mini-frame bind-key eglot eldoc erc faceup idlwave jsonrpc org project soap-client tramp use-package verilog-mode xref eev evil))
  '(package-vc-selected-packages
-   '((show-conses :vc-backend Git :url "https://github.com/edrx/show-conses")))
+   '((lean4-mode :vc-backend Git :url "https://github.com/leanprover-community/lean4-mode")
+     (show-conses :vc-backend Git :url "https://github.com/edrx/show-conses")))
+ '(safe-local-variable-values '((eval turn-off-auto-fill)))
  '(tool-bar-mode nil))
 
 (setq
@@ -177,6 +179,10 @@
 
 (require 'symbol-overlay)
 (symbol-overlay-mode 1)
+
+;; support to Kitty Keyboard Protocol
+(require 'kkp)
+(global-kkp-mode +1)
 
 ;; ================== Evil-commentary Setup =====================
 
@@ -406,3 +412,23 @@ With a prefix argument run `ee-copy-preceding-tag-to-kill-ring' instead."
 ;; 0x0 setup
 (require 'dired)
 (defalias 'upload-0x0 'ee-0x0-upload-region)
+
+;; ============= Lean4 mode ===================
+
+(setq load-path (cons "$HOME/.emacs.d/elpa/lean4-mode" load-path))
+
+(setq lean4-mode-required-packages '(dash flycheck lsp-mode magit-section))
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(package-initialize)
+(let ((need-to-refresh t))
+  (dolist (p lean4-mode-required-packages)
+    (when (not (package-installed-p p))
+      (when need-to-refresh
+        (package-refresh-contents)
+        (setq need-to-refresh nil))
+      (package-install p))))
+
+(require 'lean4-mode)
+;; (find-lean4-intro)
