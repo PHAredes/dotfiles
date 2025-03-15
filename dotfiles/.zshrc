@@ -45,5 +45,3 @@ source ~/.secrets
 
 # ghcup setup
 [ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env"
-
-[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env
