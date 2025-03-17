@@ -1,3 +1,2 @@
-$HOME/plfa/standard-library/standard-library.agda-lib
-$HOME/plfa/src/plfa.agda-lib
+$HOME/agda-libraries/standard-library/standard-library.agda-lib
 $HOME/agda-libraries/cubical/cubical.agda-lib
