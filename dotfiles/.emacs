@@ -6,11 +6,25 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("046a2b81d13afddae309930ef85d458c4f5d278a69448e5a5261a5c78598e012" "d445c7b530713eac282ecdeea07a8fa59692c83045bf84dd112dd738c7bcad1d" "871b064b53235facde040f6bdfa28d03d9f4b966d8ce28fb1725313731a2bcc8" "5ec088e25ddfcfe37b6ae7712c9cb37fd283ea5df7ac609d007cafa27dab6c64" "d43860349c9f7a5b96a090ecf5f698ff23a8eb49cd1e5c8a83bb2068f24ea563" "0f220ea77c6355c411508e71225680ecb3e308b4858ef6c8326089d9ea94b86f" "72ed8b6bffe0bfa8d097810649fd57d2b598deef47c992920aef8b5d9599eefe" "d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7" "3e374bb5eb46eb59dbd92578cae54b16de138bc2e8a31a2451bf6fdb0f3fd81b" default))
+   '("046a2b81d13afddae309930ef85d458c4f5d278a69448e5a5261a5c78598e012"
+     "d445c7b530713eac282ecdeea07a8fa59692c83045bf84dd112dd738c7bcad1d"
+     "871b064b53235facde040f6bdfa28d03d9f4b966d8ce28fb1725313731a2bcc8"
+     "5ec088e25ddfcfe37b6ae7712c9cb37fd283ea5df7ac609d007cafa27dab6c64"
+     "d43860349c9f7a5b96a090ecf5f698ff23a8eb49cd1e5c8a83bb2068f24ea563"
+     "0f220ea77c6355c411508e71225680ecb3e308b4858ef6c8326089d9ea94b86f"
+     "72ed8b6bffe0bfa8d097810649fd57d2b598deef47c992920aef8b5d9599eefe"
+     "d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7"
+     "3e374bb5eb46eb59dbd92578cae54b16de138bc2e8a31a2451bf6fdb0f3fd81b" default))
  '(package-selected-packages
-   '(kkp magit-section lsp-mode flycheck symbol-overlay 0x0 vterm igist show-conses autothemer gptel markdown-mode cape doom-modeline which-key-posframe which-key nerd-icons evil-commentary mini-frame bind-key eglot eldoc erc faceup idlwave jsonrpc org project soap-client tramp use-package verilog-mode xref eev evil))
+   '(0x0 autothemer bind-key cape company doom-modeline eev eglot eldoc erc evil
+         evil-commentary faceup flycheck gptel haskell-mode idlwave igist
+         jsonrpc kkp lsp-haskell lsp-mode lsp-ui magit-section markdown-mode
+         mini-frame nerd-icons org project prop-menu show-conses soap-client
+         symbol-overlay tramp use-package verilog-mode vterm which-key
+         which-key-posframe xref))
  '(package-vc-selected-packages
-   '((lean4-mode :vc-backend Git :url "https://github.com/leanprover-community/lean4-mode")
+   '((lean4-mode :vc-backend Git :url
+                 "https://github.com/leanprover-community/lean4-mode")
      (show-conses :vc-backend Git :url "https://github.com/edrx/show-conses")))
  '(safe-local-variable-values '((eval turn-off-auto-fill)))
  '(tool-bar-mode nil))
@@ -84,72 +98,41 @@
 
 (add-to-list 'custom-theme-load-path (expand-file-name "etc/themes/" user-emacs-directory))
 
-;; ================== Theme configurations ========================
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 
-;; Line number
+(add-to-list 'exec-path "/home/pedro/.cabal/bin") ;; Adjust this to where `agda-mode` is located
+(setenv "PATH" (concat "/home/pedro/.cabal/bin:" (getenv "PATH")))
+
+
+;; ================== Theme Configurations ========================
+
+;; Enable line numbers in programming modes
 (global-display-line-numbers-mode 1)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
+;; Font and face settings
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Cascadia Code" :foundry "SAJA" :slant normal :weight regular :height 120 :width normal))))
+ '(default ((t (:family "Cascadia Code PL" :foundry "SAJA" :slant normal :weight regular :height 120 :width normal))))
  '(font-lock-comment-delimiter-face ((t (:slant italic))))
  '(font-lock-comment-face ((t (:slant italic))))
  '(symbol-overlay-default-face ((t (:inherit highlight :underline t)))))
 
-;; Autothemer setup
+;; Set fallback font for missing Unicode characters
+(when (member "Symbols Nerd Font" (font-family-list))
+  (set-fontset-font t 'unicode "Symbols Nerd Font" nil 'append))
+
+;; Ensure Autothemer is installed for theme management
 (unless (package-installed-p 'autothemer)
   (package-install 'autothemer))
 (require 'autothemer)
+
+;; Load the Gruvbones theme
 (load-theme 'gruvbones t)
-
-;; ================= Eev configurations ======================
-
-;; See: (find-eev-levels-intro)
-(require 'eev-load)               ; (find-eev "eev-load.el")
-(require 'eev-aliases)            ; (find-eev "eev-aliases.el")
-(eev-mode 1)                      ; (find-eev "eev-mode.el")
-
-;; From: (find-angg-es-links)
-(defun find-angg (fname &rest rest)
-  (apply 'find-wgeta (format "http://anggtwu.net/%s" fname) rest))
-(defun find-anggfile (fname &rest rest)
-  (apply 'find-wget  (format "http://anggtwu.net/%s" fname) rest))
-(defun find-es (fname &rest rest)
-  (apply 'find-wgeta (format "http://anggtwu.net/e/%s.e" fname) rest))
-
-;; From: (find-melpa-links)
-(require 'package)
-(add-to-list 'package-archives
-  '("melpa" . "https://melpa.org/packages/"))
-
-;; See: (find-lean4-intro)
-(add-to-list 'load-path "~/.emacs.d/elpa/lean4-mode")
-(defun fli () (interactive) (find-lean4-intro))
-(defun el4 () (interactive) (find-eev "eev-lean4.el"))
-(require 'eev-lean4)      ; (find-eev "eev-lean4.el")
-
-;; From: (find-windows-beginner-intro "8. Test Maxima with find-wget")
-(code-c-d "maxima" "/usr/share/maxima/5.47.0/" "maxima")
-
-;; From: (find-mpv-links)
-;;  See: http://anggtwu.net/eev-videos.html#smaller-fullscreen
-;;
-(defun mf ()
-  "Make mpv use (real) full screen."
-  (interactive)
-  (setq ee-mpv-video-options '("--fs" "--osd-level=2")))
-;;
-(defun ms ()
-  "Make mpv use a \"smaller full screen\"."
-  (interactive)
-  (setq ee-mpv-video-options
-	'("--fs" "--osd-level=2"
-	  "--video-margin-ratio-bottom=0.15"
-	  "--sub-font-size=35")))
 
 ;; ================= Motion Extension ===================
 ;; Evil mode
@@ -169,7 +152,7 @@
 (evil-set-undo-system 'undo-redo)
 
 ;; Make the eev keymap take precedence over Evil's keymap
-(evil-make-overriding-map eev-mode-map 'normal)
+;; (evil-make-overriding-map eev-mode-map 'normal)
 
 ;; Re-enable the eev keymap every time eev-mode is activated
 (add-hook 'eev-mode-hook #'evil-normalize-keymaps)
@@ -246,9 +229,12 @@
 ;; 0x0
 (evil-define-key '(normal visual) 'global (kbd "<leader> s u") 'upload-0x0)
 
-
 ;; igist
 (evil-define-key '(normal visual) 'global (kbd "<leader> s g") 'igist-dispatch)
+
+;; HVM Lazy runners
+(evil-define-key 'normal 'global (kbd "<leader> r i") 'run-hvml-interpret)
+(evil-define-key 'normal 'global (kbd "<leader> r c") 'run-hvml-compile)
 
 ;; Helper functions
 (defun rename-file-and-buffer ()
@@ -274,7 +260,156 @@
         (delete-file filename)
         (kill-buffer)))))
 
+(defun run-hvml-interpret ()
+  "Run the current file with hvml in interpreted mode."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (message "Buffer is not visiting a file!")
+      (shell-command (format "cabal run hvml -- run %s" filename)))))
 
+(defun run-hvml-compile ()
+  "Run the current file with hvml in compiled mode."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (message "Buffer is not visiting a file!")
+      (shell-command (format "cabal run hvml -- run %s -c" filename)))))
+
+
+;; =========== Agda cfgs ==================
+
+;; load file (added by running `agda-mode setup` on terminal)
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda-mode locate")))
+
+;; add literate markdown Agda file to filetypes
+(add-to-list 'auto-mode-alist '("\\.lagda.md\\'" . agda2-mode))
+
+(require 'agda2-highlight)
+
+;; Change backgrounds to boxes.
+(cl-loop for (_ . face) in agda2-highlight-faces
+      do (if (string-prefix-p "agda2-" (symbol-name face)) ;; Some non-Agda faces are in the list; don't change them
+             (unless (equal face 'agda2-highlight-incomplete-pattern-face) ;; Workaround; this face is not defined in recent versions?
+             (set-face-attribute face nil
+               :box (face-attribute face :background)
+               :background 'unspecified))))
+
+;; Coverage warnings highlight the whole function;
+;; change the box to an underline to be less intrusive.
+(set-face-attribute 'agda2-highlight-coverage-problem-face nil
+  :underline (face-attribute 'agda2-highlight-coverage-problem-face :box)
+  :box 'unspecified)
+
+;; Deadcode warnings highlight the whole line;
+;; change the box to a strikethrough to be less intrusive,
+;; as well as thematically appropriate.
+(set-face-attribute 'agda2-highlight-deadcode-face nil
+  :strike-through (face-attribute 'agda2-highlight-deadcode-face :box)
+  :box 'unspecified)
+
+(set-face-attribute 'agda2-highlight-level 'non-interactive)
+
+;; ================= Auto Complete ==================
+
+(setq dabbrev-case-fold-search nil
+      dabbrev-case-replace nil
+      dabbrev-check-other-buffers t)
+
+;; ================ Emacs Session =============
+
+;; ;; Session management
+;; (require 'session)
+;; (add-hook 'after-init-hook 'session-initialize)
+
+;; ================== UI Stuff ===================
+
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode)
+  :custom
+  (doom-modeline-major-mode-icon nil)
+  (doom-modeline-major-mode-color-icon nil)
+  (doom-modeline-icon (display-graphic-p))
+  (doom-modeline-modal-modern-icon nil)
+  (doom-modeline-buffer-modification-icon nil)
+  (doom-modeline-flycheck-icon nil)
+  (doom-modeline-checker-simple-format t)
+  (doom-modeline-buffer-encoding nil)
+  (doom-modeline-bar-width 0)
+  (doom-modeline-hud nil)
+  (doom-modeline-height 20))
+
+;; =================== AI stuff ==================
+
+;; GPTel cfgs
+(setq gptel-backend
+      (gptel-make-openai "Groq"
+        :host "api.groq.com"
+        :endpoint "/openai/v1/chat/completions"
+        :stream t
+        :key (getenv "GROQ_API_KEY")
+        :models '(llama-3.3-70b-versatile
+                  qwen-2.5-coder-32b
+                  qwen-qwq-32b
+                  deepseek-r1-distill-llama-70b
+                  deepseek-r1-distill-qwen-32b)))
+
+;; ============== Coding Sharing ==================
+
+;; igist setup
+(setq igist-auth-marker 'igist)
+;; 0x0 setup
+
+;; 0x0 setup
+(require 'dired)
+(defalias 'upload-0x0 'ee-0x0-upload-region)
+
+;; ================= Eev configurations ======================
+
+;; See: (find-eev-levels-intro)
+(require 'eev-load)               ; (find-eev "eev-load.el")
+(require 'eev-aliases)            ; (find-eev "eev-aliases.el")
+(eev-mode 1)                      ; (find-eev "eev-mode.el")
+
+;; From: (find-angg-es-links)
+(defun find-angg (fname &rest rest)
+  (apply 'find-wgeta (format "http://anggtwu.net/%s" fname) rest))
+(defun find-anggfile (fname &rest rest)
+  (apply 'find-wget  (format "http://anggtwu.net/%s" fname) rest))
+(defun find-es (fname &rest rest)
+  (apply 'find-wgeta (format "http://anggtwu.net/e/%s.e" fname) rest))
+
+;; From: (find-melpa-links)
+(require 'package)
+(add-to-list 'package-archives
+  '("melpa" . "https://melpa.org/packages/"))
+
+;; See: (find-lean4-intro)
+(add-to-list 'load-path "~/.emacs.d/elpa/lean4-mode")
+(defun fli () (interactive) (find-lean4-intro))
+(defun el4 () (interactive) (find-eev "eev-lean4.el"))
+(require 'eev-lean4)      ; (find-eev "eev-lean4.el")
+
+;; From: (find-windows-beginner-intro "8. Test Maxima with find-wget")
+(code-c-d "maxima" "/usr/share/maxima/5.47.0/" "maxima")
+
+;; From: (find-mpv-links)
+;;  See: http://anggtwu.net/eev-videos.html#smaller-fullscreen
+;;
+(defun mf ()
+  "Make mpv use (real) full screen."
+  (interactive)
+  (setq ee-mpv-video-options '("--fs" "--osd-level=2")))
+;;
+(defun ms ()
+  "Make mpv use a \"smaller full screen\"."
+  (interactive)
+  (setq ee-mpv-video-options
+	'("--fs" "--osd-level=2"
+	  "--video-margin-ratio-bottom=0.15"
+	  "--sub-font-size=35")))
 ;; ====================== Macros ==========================
 
 ;; This appends the line to TODO file
@@ -358,77 +493,71 @@ With a prefix argument run `ee-copy-preceding-tag-to-kill-ring' instead."
 
 (set-face-attribute 'agda2-highlight-level 'non-interactive)
 
-;; ================= Auto Complete ==================
 
-(setq dabbrev-case-fold-search nil
-      dabbrev-case-replace nil
-      dabbrev-check-other-buffers t)
-
-;; ================ Emacs Session =============
-
-;; ;; Session management
-;; (require 'session)
-;; (add-hook 'after-init-hook 'session-initialize)
-
-;; ================== UI Stuff ===================
-
-(use-package doom-modeline
-  :ensure t
-  :hook (after-init . doom-modeline-mode)
-  :custom
-  (doom-modeline-major-mode-icon nil)
-  (doom-modeline-major-mode-color-icon nil)
-  (doom-modeline-icon (display-graphic-p))
-  (doom-modeline-modal-modern-icon nil)
-  (doom-modeline-buffer-modification-icon nil)
-  (doom-modeline-flycheck-icon nil)
-  (doom-modeline-checker-simple-format t)
-  (doom-modeline-buffer-encoding nil)
-  (doom-modeline-bar-width 0)
-  (doom-modeline-hud nil)
-  (doom-modeline-height 20))
-
-;; =================== AI stuff ==================
-
-;; GPTel cfgs
-(setq gptel-backend
-      (gptel-make-openai "Groq"
-        :host "api.groq.com"
-        :endpoint "/openai/v1/chat/completions"
-        :stream t
-        :key (getenv "GROQ_API_KEY")
-        :models '(llama-3.1-70b-versatile
-                  llama-3.1-8b-instant
-                  llama-3.2-3b-preview
-                  llama-3.2-90b-vision-preview
-                  mixtral-8x7b-32768
-                  gemma-7b-it)))
-
-;; ============== Coding Sharing ==================
-
-;; igist setup
-(setq igist-auth-marker 'igist)
-
-;; 0x0 setup
-(require 'dired)
-(defalias 'upload-0x0 'ee-0x0-upload-region)
-
-;; ============= Lean4 mode ===================
-
-(setq load-path (cons "$HOME/.emacs.d/elpa/lean4-mode" load-path))
-
-(setq lean4-mode-required-packages '(dash flycheck lsp-mode magit-section))
-
+;; Haskell cfg
+;; Ensure packages are installed (use-package is optional but recommended)
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
-(let ((need-to-refresh t))
-  (dolist (p lean4-mode-required-packages)
-    (when (not (package-installed-p p))
-      (when need-to-refresh
-        (package-refresh-contents)
-        (setq need-to-refresh nil))
-      (package-install p))))
 
-(require 'lean4-mode)
-;; (find-lean4-intro)
+;; Haskell Mode
+(use-package haskell-mode
+  :ensure t
+  :hook
+  (haskell-mode . turn-on-haskell-unicode-input-method)
+  (haskell-mode . interactive-haskell-mode)
+  (haskell-mode . turn-on-haskell-doc-mode)          ;; Documentation support
+  (haskell-mode . turn-on-haskell-indentation)       ;; Indentation support
+  (haskell-mode . lsp)                               ;; Start LSP for Haskell
+  (haskell-literate-mode . lsp))                     ;; LSP for literate Haskell
+
+;; LSP Mode Configuration
+(use-package lsp-mode
+  :ensure t
+  :commands lsp
+  :hook
+  (haskell-mode . lsp)
+  :config
+  (setq lsp-haskell-server-path "haskell-language-server-wrapper")  ;; Use HLS
+  (setq lsp-haskell-server-args '("--lsp")))                        ;; Explicitly start LSP
+
+;; Optional: Enhance LSP UI (optional but recommended)
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode
+  :hook (lsp-mode . lsp-ui-mode))
+
+;; Optional: Company for autocompletion
+(use-package company
+  :ensure t
+  :hook (haskell-mode . company-mode))
+
+;; mise-en-place stuff
+(setenv "PATH" (concat (getenv "PATH") ":/home/user/.local/share/mise/shims"))
+(setq exec-path (append exec-path '("/home/user/.local/share/mise/shims")))
+
+;; idris2 setup
+
+(add-to-list 'load-path "~/.emacs.d/idris2-mode/")
+(require 'idris2-mode)
+
+;; Fixes lag when editing idris code with evil
+(defun ~/evil-motion-range--wrapper (fn &rest args)
+  "Like `evil-motion-range', but override field-beginning for performance.
+See URL `https://github.com/ProofGeneral/PG/issues/427'."
+  (cl-letf (((symbol-function 'field-beginning)
+             (lambda (&rest args) 1)))
+    (apply fn args)))
+(advice-add #'evil-motion-range :around #'~/evil-motion-range--wrapper)
+
+
+;; HVM-mode
+
+;; Add custom lisp directory to load path
+(add-to-list 'load-path "~/Repos/HVM-mode/")
+
+;; Load HVM mode
+(require 'hvm-mode)
+
+;; Optional: One-time byte compilation (comment out after running)
+;; (byte-compile-file "~/.emacs.d/lisp/hvm-mode.el")

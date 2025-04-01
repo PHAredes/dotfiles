@@ -21,8 +21,6 @@ source $ZSH/oh-my-zsh.sh
 # Alias
 alias cl="clear"
 alias zshrc="vim ~/.zshrc"
-alias nvim="lvim"
-alias lv="lvim"
 alias holefill="holefill.mjs"
 alias hypr="vim ~/.config/hypr/hyprland.conf"
 alias ohmyzsh="mate ~/.oh-my-zsh"
@@ -45,3 +43,6 @@ source ~/.secrets
 
 # ghcup setup
 [ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env"
+
+# cabal varenv
+export PATH=$HOME/.cabal/bin:$PATH

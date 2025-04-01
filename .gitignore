@@ -42,3 +42,4 @@ dotfiles/.emacs.d/.emacs.desktop
 # OS specific
 .DS_Store
 Thumbs.db
+*.elc

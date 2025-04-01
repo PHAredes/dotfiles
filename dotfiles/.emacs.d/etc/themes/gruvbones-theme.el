@@ -191,6 +191,24 @@
   (symbol-overlay-face-6 (:underline (:color blossom)))
   (symbol-overlay-face-7 (:underline (:color aqua)))
   (symbol-overlay-face-8 (:underline (:color yellow)))
+
+  ;; hvm-mode
+  (hvm-keyword-face (:foreground rose))
+  (hvm-variable-face (:foreground fg :italic t))
+  (hvm-function-face (:foreground fg-light :italic t))
+  (hvm-constructor-face (:foreground sky))
+  (hvm-number-face (:foreground orange))
+  (hvm-char-face (:foreground fg-mid :italic t))
+  (hvm-operator-face (:foreground rose))
+  (hvm-symbols-face (:foreground fg-dark))
+  (hvm-supdup-face (:foreground fg))
+  (hvm-super-face (:foreground wood :italic t))
+  (hvm-datatype-face (:foreground water))
+  (hvm-comment-face (:foreground fg-mid :italic t))
+  (hvm-delimiters-face (:foreground ngrey-light))
+
+  (show-paren-match (:foreground blossom))
+
  ))
 ;;;###autoload
 (and load-file-name
