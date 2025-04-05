@@ -122,6 +122,8 @@
  '(font-lock-comment-face ((t (:slant italic))))
  '(symbol-overlay-default-face ((t (:inherit highlight :underline t)))))
 
+(setq-default line-spacing 0.1)
+
 ;; Set fallback font for missing Unicode characters
 (when (member "Symbols Nerd Font" (font-family-list))
   (set-fontset-font t 'unicode "Symbols Nerd Font" nil 'append))
@@ -189,7 +191,7 @@
 (define-key evil-motion-state-map " " nil)
 
 (global-set-key (kbd "C-<tab>") 'dabbrev-completion)
-(global-set-key (kbd "C-c C-l") 'eval-buffer)
+(evil-define-key 'normal 'global (kbd "<leader> b l") 'eval-buffer)
 
 ;; symbol-overlay
 (global-set-key (kbd "M-i") 'symbol-overlay-put)
@@ -344,17 +346,24 @@
 ;; =================== AI stuff ==================
 
 ;; GPTel cfgs
+;; backend default to Groq
 (setq gptel-backend
       (gptel-make-openai "Groq"
         :host "api.groq.com"
         :endpoint "/openai/v1/chat/completions"
         :stream t
-        :key (getenv "GROQ_API_KEY")
+        :key #'gptel-api-key-from-auth-source
         :models '(llama-3.3-70b-versatile
                   qwen-2.5-coder-32b
                   qwen-qwq-32b
                   deepseek-r1-distill-llama-70b
                   deepseek-r1-distill-qwen-32b)))
+
+;; running locally with Ollama
+(gptel-make-ollama "Ollama"
+  :host "localhost:11434"
+  :stream t
+  :models '(deepseek-r1:1.5b))
 
 ;; ============== Coding Sharing ==================
 
