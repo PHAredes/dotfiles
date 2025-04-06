@@ -151,6 +151,7 @@
 
 ;; Set leader key
 (evil-set-leader 'normal (kbd "SPC"))
+(evil-set-leader 'visual (kbd "SPC"))
 
 ;; Set C-r to redo
 (evil-set-undo-system 'undo-redo)
@@ -197,10 +198,10 @@
 (define-key evil-motion-state-map (kbd "RET") nil)
 
 ;; Unbind space in all Evil states to do nothing
-(define-key evil-normal-state-map (kbd " ") nil)
-(define-key evil-insert-state-map (kbd " ") nil)
+(define-key evil-motion-state-map (kbd " ") nil)
 (define-key evil-visual-state-map (kbd " ") nil)
 (define-key evil-motion-state-map (kbd " ") nil)
+(define-key evil-insert-state-map (kbd " ") nil)
 
 (evil-define-key 'normal 'global (kbd "<leader> b l") 'eval-buffer)
 
