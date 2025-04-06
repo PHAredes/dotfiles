@@ -189,8 +189,18 @@
 (setq which-key-allow-evil-operators t)
 (setq which-key-show-operator-state-maps t)
 
-;; allow space to act as <leader> on visual mode
-(define-key evil-motion-state-map " " nil)
+;; disabling RET and SPACE default VIM behavior (because I'm not a dinosaur)
+;; Unbind RET in all Evil states to do nothing
+(define-key evil-normal-state-map (kbd "RET") nil)
+(define-key evil-insert-state-map (kbd "RET") nil)
+(define-key evil-visual-state-map (kbd "RET") nil)
+(define-key evil-motion-state-map (kbd "RET") nil)
+
+;; Unbind space in all Evil states to do nothing
+(define-key evil-normal-state-map (kbd " ") nil)
+(define-key evil-insert-state-map (kbd " ") nil)
+(define-key evil-visual-state-map (kbd " ") nil)
+(define-key evil-motion-state-map (kbd " ") nil)
 
 (global-set-key (kbd "C-<tab>") 'dabbrev-completion)
 (evil-define-key 'normal 'global (kbd "<leader> b l") 'eval-buffer)
