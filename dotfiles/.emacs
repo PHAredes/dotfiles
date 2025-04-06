@@ -18,10 +18,10 @@
  '(package-selected-packages
    '(0x0 autothemer bind-key cape company doom-modeline eev eglot eldoc erc evil
          evil-commentary faceup flycheck gptel haskell-mode idlwave igist
-         jsonrpc kkp lsp-haskell lsp-mode lsp-ui magit-section markdown-mode
-         mini-frame nerd-icons org project prop-menu show-conses soap-client
-         symbol-overlay tramp use-package verilog-mode vterm which-key
-         which-key-posframe xref))
+         jsonrpc kkp lsp-haskell lsp-mode lsp-ui magit magit-section
+         markdown-mode mini-frame nerd-icons org project prop-menu show-conses
+         soap-client symbol-overlay tramp use-package verilog-mode vterm
+         which-key which-key-posframe xref))
  '(package-vc-selected-packages
    '((lean4-mode :vc-backend Git :url
                  "https://github.com/leanprover-community/lean4-mode")
@@ -48,7 +48,8 @@
  cursor-in-non-selected-windows nil               ; Hide the cursor in inactive windows
  delete-by-moving-to-trash t                      ; Delete files to trash
  display-time-default-load-average nil            ; Don't display load average
- display-time-format "%H:%M"                      ; Format the time string
+ system-time-locale "C"                           ; Make time masks US based
+ display-time-format "%d %b %I:%M %p"             ; Format the time string
  fill-column 80                                   ; Set width for automatic line breaks
  help-window-select t                             ; Focus new help windows when opened
  indent-tabs-mode nil                             ; Use tabs to indent
@@ -68,8 +69,9 @@
  x-stretch-cursor t                               ; Stretch cursor to the glyph width
  delete-old-versions -1                           ; Delete excess backup versions silently
  version-control t                                ; Use version control
- ring-bell-function 'ignore                       ; Silent bell when you make a mistake
+ visible-bell nil                                 ; No bells please
  inhibit-compacting-font-caches t                 ; Faster navigation point (costs more memory)
+ find-file-visit-truename t                       ; Prevent symlics to show a ridiculous path
  make-backup-files nil                            ; Stop creating backup files
  vc-follow-symlinks t                             ; When the symlink points to a version-controlled file
  use-default-font-for-symbols nil                 ; Do not use the frame font when rendering emojis
@@ -234,9 +236,8 @@
 ;; igist
 (evil-define-key '(normal visual) 'global (kbd "<leader> s g") 'igist-dispatch)
 
-;; HVM Lazy runners
-(evil-define-key 'normal 'global (kbd "<leader> r i") 'run-hvml-interpret)
-(evil-define-key 'normal 'global (kbd "<leader> r c") 'run-hvml-compile)
+;; native emacs M-. 
+(evil-define-key '(normal visual) 'global (kbd "<leader> d") 'xref-find-definitions)
 
 ;; Helper functions
 (defun rename-file-and-buffer ()
@@ -261,58 +262,6 @@
       (when (yes-or-no-p (format "Are you sure you want to delete '%s'?" filename))
         (delete-file filename)
         (kill-buffer)))))
-
-(defun run-hvml-interpret ()
-  "Run the current file with hvml in interpreted mode."
-  (interactive)
-  (let ((filename (buffer-file-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (message "Buffer is not visiting a file!")
-      (shell-command (format "cabal run hvml -- run %s" filename)))))
-
-(defun run-hvml-compile ()
-  "Run the current file with hvml in compiled mode."
-  (interactive)
-  (let ((filename (buffer-file-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (message "Buffer is not visiting a file!")
-      (shell-command (format "cabal run hvml -- run %s -c" filename)))))
-
-
-;; =========== Agda cfgs ==================
-
-;; load file (added by running `agda-mode setup` on terminal)
-(load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
-
-;; add literate markdown Agda file to filetypes
-(add-to-list 'auto-mode-alist '("\\.lagda.md\\'" . agda2-mode))
-
-(require 'agda2-highlight)
-
-;; Change backgrounds to boxes.
-(cl-loop for (_ . face) in agda2-highlight-faces
-      do (if (string-prefix-p "agda2-" (symbol-name face)) ;; Some non-Agda faces are in the list; don't change them
-             (unless (equal face 'agda2-highlight-incomplete-pattern-face) ;; Workaround; this face is not defined in recent versions?
-             (set-face-attribute face nil
-               :box (face-attribute face :background)
-               :background 'unspecified))))
-
-;; Coverage warnings highlight the whole function;
-;; change the box to an underline to be less intrusive.
-(set-face-attribute 'agda2-highlight-coverage-problem-face nil
-  :underline (face-attribute 'agda2-highlight-coverage-problem-face :box)
-  :box 'unspecified)
-
-;; Deadcode warnings highlight the whole line;
-;; change the box to a strikethrough to be less intrusive,
-;; as well as thematically appropriate.
-(set-face-attribute 'agda2-highlight-deadcode-face nil
-  :strike-through (face-attribute 'agda2-highlight-deadcode-face :box)
-  :box 'unspecified)
-
-(set-face-attribute 'agda2-highlight-level 'non-interactive)
-
 ;; ================= Auto Complete ==================
 
 (setq dabbrev-case-fold-search nil
@@ -328,11 +277,9 @@
 ;; ================== UI Stuff ===================
 
 (use-package doom-modeline
-  :ensure t
   :hook (after-init . doom-modeline-mode)
   :custom
   (doom-modeline-major-mode-icon nil)
-  (doom-modeline-major-mode-color-icon nil)
   (doom-modeline-icon (display-graphic-p))
   (doom-modeline-modal-modern-icon nil)
   (doom-modeline-buffer-modification-icon nil)
@@ -341,7 +288,11 @@
   (doom-modeline-buffer-encoding nil)
   (doom-modeline-bar-width 0)
   (doom-modeline-hud nil)
-  (doom-modeline-height 20))
+  (doom-modeline-height 20)
+  (doom-modeline-highlight-modified-buffer-name t)
+  )
+
+(setq doom-modeline-position-line-format '("%l:%c"))
 
 ;; =================== AI stuff ==================
 
@@ -369,7 +320,6 @@
 
 ;; igist setup
 (setq igist-auth-marker 'igist)
-;; 0x0 setup
 
 ;; 0x0 setup
 (require 'dired)
@@ -501,9 +451,20 @@ With a prefix argument run `ee-copy-preceding-tag-to-kill-ring' instead."
   :box 'unspecified)
 
 (set-face-attribute 'agda2-highlight-level 'non-interactive)
+(require 'agda-input)
 
+;; Function to ensure Agda input method is active
+(defun ensure-agda-input ()
+  "Ensure Agda input method is active in the current buffer."
+  (interactive)
+  (unless (string= current-input-method "Agda")
+    (activate-input-method "Agda")))
 
-;; Haskell cfg
+;; Automatically activate Agda input method in all buffers
+(add-hook 'after-change-major-mode-hook 'ensure-agda-input)
+
+;;============= Haskell cfg =========================
+
 ;; Ensure packages are installed (use-package is optional but recommended)
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -513,7 +474,6 @@ With a prefix argument run `ee-copy-preceding-tag-to-kill-ring' instead."
 (use-package haskell-mode
   :ensure t
   :hook
-  (haskell-mode . turn-on-haskell-unicode-input-method)
   (haskell-mode . interactive-haskell-mode)
   (haskell-mode . turn-on-haskell-doc-mode)          ;; Documentation support
   (haskell-mode . turn-on-haskell-indentation)       ;; Indentation support
@@ -560,7 +520,7 @@ See URL `https://github.com/ProofGeneral/PG/issues/427'."
 (advice-add #'evil-motion-range :around #'~/evil-motion-range--wrapper)
 
 
-;; HVM-mode
+;; ================= HVM-mode ====================
 
 ;; Add custom lisp directory to load path
 (add-to-list 'load-path "~/Repos/HVM-mode/")
@@ -570,3 +530,33 @@ See URL `https://github.com/ProofGeneral/PG/issues/427'."
 
 ;; Optional: One-time byte compilation (comment out after running)
 ;; (byte-compile-file "~/.emacs.d/lisp/hvm-mode.el")
+
+;; ============== Magit ===================
+
+(require 'magit)
+
+(setq magit-auto-revert-mode t)  ; Auto-refresh buffers
+
+(defun my/clean-compilation-buffer (buffer &optional ignored)
+  "Clean up the compilation buffer by removing header, command line, and footer."
+  (with-current-buffer buffer
+    (let ((inhibit-read-only t))  ;; Allow editing the read-only buffer
+      (save-excursion            ;; Preserve cursor position
+        ;; Go to the start of the buffer
+        (goto-char (point-min))
+        ;; Delete the header (mode line and "Compilation started" line)
+        (when (looking-at "-\\*- mode: compilation;.*-\\*-\nCompilation started at.*\n")
+          (delete-region (point-min) (match-end 0)))
+        ;; Delete the command line (next line after header)
+        (when (looking-at ".*\n")
+          (delete-region (point) (match-end 0)))
+        ;; Delete any leading blank lines
+        (while (looking-at "\n")
+          (delete-char 1))
+        ;; Go to the end and delete the footer
+        (goto-char (point-max))
+        (when (re-search-backward "\n\nCompilation finished at.*$" nil t)
+          (delete-region (match-beginning 0) (point-max)))))))
+
+;; Hook the function to run after compilation finishes
+(add-hook 'compilation-finish-functions 'my/clean-compilation-buffer)
