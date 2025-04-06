@@ -202,7 +202,6 @@
 (define-key evil-visual-state-map (kbd " ") nil)
 (define-key evil-motion-state-map (kbd " ") nil)
 
-(global-set-key (kbd "C-<tab>") 'dabbrev-completion)
 (evil-define-key 'normal 'global (kbd "<leader> b l") 'eval-buffer)
 
 ;; symbol-overlay
@@ -216,9 +215,6 @@
 (evil-define-key 'normal 'global (kbd "<leader> f f") 'find-file)
 (evil-define-key 'normal 'global (kbd "<leader> f r") 'rename-file-and-buffer)
 (evil-define-key 'normal 'global (kbd "<leader> f d") 'delete-file-and-buffer)
-
-;; term
-(evil-define-key 'normal 'global (kbd "<leader> t") 'vterm)
 
 ;; buffers
 (evil-define-key 'normal 'global (kbd "<leader> w")   'save-buffer)
