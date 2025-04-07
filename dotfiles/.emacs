@@ -17,20 +17,16 @@
      "3e374bb5eb46eb59dbd92578cae54b16de138bc2e8a31a2451bf6fdb0f3fd81b" default))
  '(package-selected-packages
    '(0x0 autothemer bind-key cape company doom-modeline eev eglot eldoc erc evil
-         evil-commentary faceup flycheck gptel haskell-mode idlwave igist
-         jsonrpc kkp lsp-haskell lsp-mode lsp-ui magit magit-section
-         markdown-mode mini-frame nerd-icons org project prop-menu show-conses
-         soap-client symbol-overlay tramp use-package verilog-mode vterm
+         evil-commentary evil-surround faceup flycheck gptel haskell-mode
+         idlwave igist jsonrpc kkp lsp-haskell lsp-mode lsp-ui magit
+         magit-section markdown-mode mini-frame nerd-icons org project prop-menu
+         show-conses soap-client symbol-overlay tramp use-package verilog-mode
          which-key which-key-posframe xref))
- '(package-vc-selected-packages
-   '((lean4-mode :vc-backend Git :url
-                 "https://github.com/leanprover-community/lean4-mode")
-     (show-conses :vc-backend Git :url "https://github.com/edrx/show-conses")))
  '(safe-local-variable-values '((eval turn-off-auto-fill)))
  '(tool-bar-mode nil))
 
 (setq
- globals--email        (getenv "EMAIL") ; Email for GPG encryption
+ globals--email        (getenv "EMAIL")           ; Email for GPG encryption
  globals--theme        'gruvbones                 ; Theme variable
  globals--leader-key   "<SPC>"                    ; Leader prefix key used for most bindings
  )
@@ -155,6 +151,7 @@
 
 ;; Set C-r to redo
 (evil-set-undo-system 'undo-redo)
+
 
 ;; Make the eev keymap take precedence over Evil's keymap
 ;; (evil-make-overriding-map eev-mode-map 'normal)
@@ -376,6 +373,17 @@
 	'("--fs" "--osd-level=2"
 	  "--video-margin-ratio-bottom=0.15"
 	  "--sub-font-size=35")))
+
+(defvar ee-chrome-program      "google-chrome-stable")
+(defun find-chrome      (url) (find-bgprocess `(,ee-chrome-program      ,url)))
+
+(global-set-key (kbd "C-c f") 'chrome-find)
+(defun chrome-find ()
+  "Substitui o texto selecionado por (find-chrome <Text>)"
+  (interactive)
+  (let ((texto (buffer-substring (region-beginning) (region-end))))
+    (delete-region (region-beginning) (region-end))
+    (insert "(find-chrome \"" texto "\")")))
 ;; ====================== Macros ==========================
 
 ;; This appends the line to TODO file
