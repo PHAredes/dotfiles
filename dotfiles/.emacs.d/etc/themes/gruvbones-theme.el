@@ -109,7 +109,7 @@
   (font-lock-doc-markup-face           (:foreground ngrey-mid))
   (font-lock-string-face               (:foreground fg-mid :italic t))
   (font-lock-keyword-face              (:foreground rose :bold t))
-  (font-lock-function-name-face        (:foreground fg-dark))
+  (font-lock-function-name-face        (:foreground fg-dark :weight 'semi-bold))
   (font-lock-variable-name-face        (:foreground water))
   (font-lock-regexp-grouping-backslash (:foreground water))
   (font-lock-negation-char-face        (:foreground rose))
@@ -194,18 +194,18 @@
 
   ;; hvm-mode
   (hvm-keyword-face (:foreground rose))
-  (hvm-variable-face (:foreground fg :italic t))
-  (hvm-function-face (:foreground fg-light :italic t))
+  (hvm-variable-face (:foreground fg :italic))
+  (hvm-function-face (:foreground fg-light :weight 'semi-bold))
   (hvm-constructor-face (:foreground sky))
   (hvm-number-face (:foreground orange))
-  (hvm-char-face (:foreground fg-mid :italic t))
+  (hvm-char-face (:foreground blossom))
   (hvm-operator-face (:foreground rose))
-  (hvm-symbols-face (:foreground fg-dark))
+  (hvm-symbols-face (:foreground ngrey-mid))
   (hvm-supdup-face (:foreground fg))
   (hvm-super-face (:foreground wood :italic t))
   (hvm-datatype-face (:foreground water))
   (hvm-comment-face (:foreground fg-mid :italic t))
-  (hvm-delimiters-face (:foreground ngrey-light))
+  (hvm-delimiters-face (:foreground ngrey-mid))
 
   (show-paren-match (:foreground blossom))
 
