@@ -19,6 +19,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # Alias
+alias firefox="google-chrome-stable"
 alias cl="clear"
 alias zshrc="vim ~/.zshrc"
 alias holefill="holefill.mjs"
