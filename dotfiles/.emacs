@@ -18,10 +18,10 @@
  '(package-selected-packages
    '(0x0 autothemer bind-key cape company doom-modeline eev eglot eldoc erc evil
          evil-commentary evil-surround faceup flycheck gptel haskell-mode
-         idlwave igist jsonrpc kkp lsp-haskell lsp-mode lsp-ui magit
-         magit-section markdown-mode mini-frame nerd-icons org project prop-menu
-         show-conses soap-client symbol-overlay tramp use-package verilog-mode
-         which-key which-key-posframe xref))
+         idlwave igist jsonrpc lsp-haskell lsp-mode lsp-ui magit magit-section
+         markdown-mode mini-frame nerd-icons org project prop-menu
+         rainbow-delimiters show-conses soap-client symbol-overlay tramp
+         use-package verilog-mode which-key which-key-posframe xref))
  '(safe-local-variable-values '((eval turn-off-auto-fill)))
  '(tool-bar-mode nil))
 
@@ -79,6 +79,7 @@
 (global-auto-revert-mode 1)                       ; Automatically revert a buffer when it changes on disk
 (fringe-mode '(8 . 0))                            ; Enable fringe on the left for git-gutter-fringe+
 (electric-pair-mode t)                            ; Enable Matching delimeters
+(electric-pair-conservative-inhibit t)
 (electric-indent-mode t)                          ; Auto indentation
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
 (global-subword-mode 1)                           ; Iterate through CamelCase words
@@ -87,7 +88,6 @@
 (put 'downcase-region 'disabled nil)              ; Enable downcase-region
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
 (show-paren-mode 1)
-
 (set-default-coding-systems 'utf-8)
 (set-language-environment "UTF-8")
 (prefer-coding-system 'utf-8)
@@ -102,6 +102,10 @@
 (add-to-list 'exec-path "/home/pedro/.cabal/bin") ;; Adjust this to where `agda-mode` is located
 (setenv "PATH" (concat "/home/pedro/.cabal/bin:" (getenv "PATH")))
 
+(setq electric-pair-inhibit-predicate  ;; Don't pair if there's non-whitespace after cursor
+      (lambda (c)
+        (or (eobp)
+            (not (looking-at-p "[ \t\n]")))))
 
 ;; ================== Theme Configurations ========================
 
@@ -145,13 +149,15 @@
 (require 'evil)
 (evil-mode 1)
 
+(require 'evil-surround)
+(global-evil-surround-mode 1)
+
 ;; Set leader key
 (evil-set-leader 'normal (kbd "SPC"))
 (evil-set-leader 'visual (kbd "SPC"))
 
 ;; Set C-r to redo
 (evil-set-undo-system 'undo-redo)
-
 
 ;; Make the eev keymap take precedence over Evil's keymap
 ;; (evil-make-overriding-map eev-mode-map 'normal)
@@ -164,10 +170,6 @@
 
 (require 'symbol-overlay)
 (symbol-overlay-mode 1)
-
-;; support to Kitty Keyboard Protocol
-(require 'kkp)
-(global-kkp-mode +1)
 
 ;; ================== Evil-commentary Setup =====================
 
@@ -243,6 +245,26 @@
 ;; native emacs M-. 
 (evil-define-key '(normal visual) 'global (kbd "<leader> d") 'xref-find-definitions)
 
+;; ;; ;; sorry but why the fuck V gets the newline???
+;; (defun evil-visual-inner-line ()
+;;   (interactive)
+;;   (evil-exit-visual-state)
+;;   (evil-first-non-blank)
+;;   (evil-visual-char)
+;;   (evil-last-non-blank))
+
+;; (defun evil-visual-around-line ()
+;;   (interactive)
+;;   (evil-exit-visual-state)
+;;   (evil-beginning-of-line)
+;;   (evil-visual-char) asdf
+;;   (evil-last-non-blank))
+
+;; (define-key evil-visual-state-map (kbd "il") 'evil-visual-inner-line)
+;; (define-key evil-visual-state-map (kbd "S-l") 'evil-visual-around-line)
+;; (define-key evil-operator-state-map (kbd "il") 'evil-visual-inner-line)
+;; (define-key evil-operator-state-map (kbd "S-l") 'evil-visual-around-line)
+
 ;; Helper functions
 (defun rename-file-and-buffer ()
   "Rename the current buffer and file it is visiting."
@@ -298,6 +320,8 @@
 
 (setq doom-modeline-position-line-format '("%l:%c"))
 
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
 ;; =================== AI stuff ==================
 
 ;; GPTel cfgs
@@ -308,7 +332,8 @@
         :endpoint "/openai/v1/chat/completions"
         :stream t
         :key #'gptel-api-key-from-auth-source
-        :models '(llama-3.3-70b-versatile
+        :models '(meta-llama/llama-4-maverick-17b-128e-instruct
+                  llama-3.3-70b-versatile
                   qwen-2.5-coder-32b
                   qwen-qwq-32b
                   deepseek-r1-distill-llama-70b
@@ -519,7 +544,6 @@ With a prefix argument run `ee-copy-preceding-tag-to-kill-ring' instead."
 ;; mise-en-place stuff
 (setenv "PATH" (concat (getenv "PATH") ":/home/user/.local/share/mise/shims"))
 (setq exec-path (append exec-path '("/home/user/.local/share/mise/shims")))
-
 ;; idris2 setup
 
 (add-to-list 'load-path "~/.emacs.d/idris2-mode/")
@@ -538,6 +562,7 @@ See URL `https://github.com/ProofGeneral/PG/issues/427'."
 ;; ================= HVM-mode ====================
 
 ;; Add custom lisp directory to load path
+
 (add-to-list 'load-path "~/Repos/HVM-mode/")
 
 ;; Load HVM mode
@@ -571,7 +596,7 @@ See URL `https://github.com/ProofGeneral/PG/issues/427'."
         ;; Go to the end and delete the footer
         (goto-char (point-max))
         (when (re-search-backward "\n\nCompilation finished at.*$" nil t)
-          (delete-region (match-beginning 0) (point-max)))))))
+          (delete-[region] (match-beginning 0) (point-max)))))))
 
 ;; Hook the function to run after compilation finishes
 (add-hook 'compilation-finish-functions 'my/clean-compilation-buffer)

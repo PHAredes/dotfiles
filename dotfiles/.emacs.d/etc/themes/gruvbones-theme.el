@@ -1,4 +1,4 @@
-;;; package: --- A pleasant theme with earthy shades, inspired by Gruvbox.
+;;; package: --- A pleasant theme with earthy shades, inspired by Gruvbox. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
 (require 'autothemer)
@@ -29,7 +29,7 @@
   (gray            "#928374")
   (orange          "#fe8019")
   (yellow          "#fabd2f")
-  (purple          "#b16286")
+  ;; (purple          "#b16286")
   (aqua            "#8ec07c")
   )
 
@@ -102,6 +102,8 @@
   ;; Font lock
   (font-lock-type-face                 (:foreground blossom))
   (font-lock-warning-face              (:foreground rose :bold t))
+  (font-lock-delimiters-face           (:foreground ngrey-mid))
+  (font-lock-punctuation-face          (:foreground ngrey-mid))
   (font-lock-builtin-face              (:foreground orange))
   (font-lock-constant-face             (:foreground blossom))
   (font-lock-comment-face              (:foreground ngrey-mid))
@@ -194,22 +196,32 @@
 
   ;; hvm-mode
   (hvm-keyword-face (:foreground rose))
-  (hvm-variable-face (:foreground fg :italic))
+  (hvm-variable-face (:foreground fg :italic t))
   (hvm-function-face (:foreground fg-light :weight 'semi-bold))
   (hvm-constructor-face (:foreground sky))
   (hvm-number-face (:foreground orange))
   (hvm-char-face (:foreground blossom))
   (hvm-operator-face (:foreground rose))
-  (hvm-symbols-face (:foreground ngrey-mid))
+  (hvm-symbols-face (:foreground ngrey-light))
   (hvm-supdup-face (:foreground fg))
   (hvm-super-face (:foreground wood :italic t))
   (hvm-datatype-face (:foreground water))
   (hvm-comment-face (:foreground fg-mid :italic t))
   (hvm-delimiters-face (:foreground ngrey-mid))
 
-  (show-paren-match (:foreground blossom))
+ ;; Rainbow delimiters
+  (rainbow-delimiters-depth-1-face     (:foreground "#d5c4a1"))
+  (rainbow-delimiters-depth-2-face     (:foreground "#bdae93"))
+  (rainbow-delimiters-depth-3-face     (:foreground "#a89984"))
+  (rainbow-delimiters-depth-4-face     (:foreground "#928374"))
+  (rainbow-delimiters-depth-5-face     (:foreground "#7c6f64"))
+  (rainbow-delimiters-depth-6-face     (:foreground "#665c54"))
+  (rainbow-delimiters-depth-7-face     (:foreground "#504945"))
+  (rainbow-delimiters-depth-8-face     (:foreground "#3c3836"))
+  (rainbow-delimiters-depth-9-face     (:foreground "#32302f"))
+  (rainbow-delimiters-unmatched-face   (:foreground "#fb4934" :bold t))
 
- ))
+))
 ;;;###autoload
 (and load-file-name
      (boundp 'custom-theme-load-path)
