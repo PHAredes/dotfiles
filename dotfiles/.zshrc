@@ -38,7 +38,6 @@ eval "$(~/.local/bin/mise activate zsh)"
 
 # Add emacs to path
 export PATH="$HOME/.config/emacs/bin:$PATH"
-export PATH="$HOME/.elan/bin:$PATH"
 
 source ~/.secrets
 
@@ -47,3 +46,5 @@ source ~/.secrets
 
 # cabal varenv
 export PATH=$HOME/.cabal/bin:$PATH
+
+export EDITOR="emacsclient -nw -c -a ''"

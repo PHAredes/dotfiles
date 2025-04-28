@@ -1,4 +1,5 @@
 [tools]
+bun = "latest"
 chezscheme = "latest"
 idris2 = "latest"
 node = "latest"

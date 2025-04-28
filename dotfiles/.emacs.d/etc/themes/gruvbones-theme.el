@@ -1,5 +1,21 @@
-;;; package: --- A pleasant theme with earthy shades, inspired by Gruvbox. -*- lexical-binding: t; -*-
+;;; gruvbones-theme.el --- A pleasant theme with earthy shades, inspired by Gruvbox -*- lexical-binding: t; -*-
+;;
+;; Copyright (C) 2025 PHAredes
+;;
+;; Author: PHAredes <pedro.aredes@hotmail.com>
+;; Maintainer: PHAredes <pedro.aredes@hotmail.com>
+;; Created: october 30, 2025
+;; Modified: abril 17, 2025
+;; Version: 0.0.5
+;; Homepage: https://github.com/PHAredes/dotfiles/blob/main/dotfiles/.emacs.d/etc/themes/
+;; Package-Requires: ((emacs "24.3"))
+;;
+;; This file is not part of GNU Emacs.
+;;
 ;;; Commentary:
+;;
+;;  Description
+;;
 ;;; Code:
 (require 'autothemer)
 
@@ -30,8 +46,7 @@
   (orange          "#fe8019")
   (yellow          "#fabd2f")
   ;; (purple          "#b16286")
-  (aqua            "#8ec07c")
-  )
+  (aqua            "#8ec07c"))
 
  ;; Customize faces
  (
@@ -195,7 +210,6 @@
   (symbol-overlay-face-8 (:underline (:color yellow)))
 
   ;; hvm-mode
-  (hvm-keyword-face (:foreground rose))
   (hvm-variable-face (:foreground fg :italic t))
   (hvm-function-face (:foreground fg-light :weight 'semi-bold))
   (hvm-constructor-face (:foreground sky))
@@ -208,8 +222,11 @@
   (hvm-datatype-face (:foreground water))
   (hvm-comment-face (:foreground fg-mid :italic t))
   (hvm-delimiters-face (:foreground ngrey-mid))
+  (hvm-declaration-face (:foreground rose :weight 'bold))
+  (hvm-definition-face (:foreground yellow))
+  (hvm-control-face (:foreground aqua))
 
- ;; Rainbow delimiters
+  ;; Rainbow delimiters
   (rainbow-delimiters-depth-1-face     (:foreground "#d5c4a1"))
   (rainbow-delimiters-depth-2-face     (:foreground "#bdae93"))
   (rainbow-delimiters-depth-3-face     (:foreground "#a89984"))
@@ -219,9 +236,8 @@
   (rainbow-delimiters-depth-7-face     (:foreground "#504945"))
   (rainbow-delimiters-depth-8-face     (:foreground "#3c3836"))
   (rainbow-delimiters-depth-9-face     (:foreground "#32302f"))
-  (rainbow-delimiters-unmatched-face   (:foreground "#fb4934" :bold t))
+  (rainbow-delimiters-unmatched-face   (:foreground "#fb4934" :bold t))))
 
-))
 ;;;###autoload
 (and load-file-name
      (boundp 'custom-theme-load-path)
@@ -230,4 +246,4 @@
                    (file-name-directory load-file-name))))
 
 (provide-theme 'gruvbones)
-;;; gruvbones.el ends here
+;;; gruvbones-theme.el ends here

@@ -15,13 +15,14 @@
      "72ed8b6bffe0bfa8d097810649fd57d2b598deef47c992920aef8b5d9599eefe"
      "d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7"
      "3e374bb5eb46eb59dbd92578cae54b16de138bc2e8a31a2451bf6fdb0f3fd81b" default))
+ '(haskell-process-show-debug-tips nil)
  '(package-selected-packages
-   '(0x0 autothemer bind-key cape company doom-modeline eev eglot eldoc erc evil
-         evil-commentary evil-surround faceup flycheck gptel haskell-mode
-         idlwave igist jsonrpc lsp-haskell lsp-mode lsp-ui magit magit-section
-         markdown-mode mini-frame nerd-icons org project prop-menu
+   '(0x0 autothemer bind-key bnf-mode cape company doom-modeline eev eglot eldoc
+         erc evil evil-commentary evil-surround faceup flycheck gptel
+         haskell-mode idlwave igist jsonrpc lsp-haskell lsp-mode lsp-ui magit
+         magit-section markdown-mode mini-frame nerd-icons org project prop-menu
          rainbow-delimiters show-conses soap-client symbol-overlay tramp
-         use-package verilog-mode which-key which-key-posframe xref))
+         use-package verilog-mode vterm which-key which-key-posframe xref))
  '(safe-local-variable-values '((eval turn-off-auto-fill)))
  '(tool-bar-mode nil))
 
@@ -217,10 +218,10 @@
 (evil-define-key 'normal 'global (kbd "<leader> f d") 'delete-file-and-buffer)
 
 ;; buffers
-(evil-define-key 'normal 'global (kbd "<leader> w")   'save-buffer)
+(evil-define-key 'normal 'global (kbd "<leader> f s")   'save-buffer)
 (evil-define-key 'normal 'global (kbd "<leader> b n") 'switch-to-next-buffer)
 (evil-define-key 'normal 'global (kbd "<leader> b p") 'switch-to-prev-buffer)
-(evil-define-key 'normal 'global (kbd "<leader> b c") 'kill-buffer)
+(evil-define-key 'normal 'global (kbd "<leader> b k") 'kill-buffer)
 
 ;; web macros
 (evil-define-key 'normal 'global (kbd "<leader> o b") 'breww2) ;; this window
@@ -544,10 +545,6 @@ With a prefix argument run `ee-copy-preceding-tag-to-kill-ring' instead."
 ;; mise-en-place stuff
 (setenv "PATH" (concat (getenv "PATH") ":/home/user/.local/share/mise/shims"))
 (setq exec-path (append exec-path '("/home/user/.local/share/mise/shims")))
-;; idris2 setup
-
-(add-to-list 'load-path "~/.emacs.d/idris2-mode/")
-(require 'idris2-mode)
 
 ;; Fixes lag when editing idris code with evil
 (defun ~/evil-motion-range--wrapper (fn &rest args)
