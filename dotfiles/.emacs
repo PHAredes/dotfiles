@@ -6,7 +6,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("046a2b81d13afddae309930ef85d458c4f5d278a69448e5a5261a5c78598e012"
+   '("1d5e26b375169adb28df8b658ee4f40b330e21a9e05c962f3c53d83ca060f2bb"
+     "1b32892ed4e7afb8fe276f68b8e249c79d03534b06cb68f3fef9404cb2b28894"
+     "046a2b81d13afddae309930ef85d458c4f5d278a69448e5a5261a5c78598e012"
      "d445c7b530713eac282ecdeea07a8fa59692c83045bf84dd112dd738c7bcad1d"
      "871b064b53235facde040f6bdfa28d03d9f4b966d8ce28fb1725313731a2bcc8"
      "5ec088e25ddfcfe37b6ae7712c9cb37fd283ea5df7ac609d007cafa27dab6c64"
@@ -15,6 +17,7 @@
      "72ed8b6bffe0bfa8d097810649fd57d2b598deef47c992920aef8b5d9599eefe"
      "d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7"
      "3e374bb5eb46eb59dbd92578cae54b16de138bc2e8a31a2451bf6fdb0f3fd81b" default))
+ '(doom-modeline-check-simple-format t nil nil "Customized with use-package doom-modeline")
  '(haskell-process-show-debug-tips nil)
  '(package-selected-packages
    '(0x0 autothemer bind-key bnf-mode cape company doom-modeline eev eglot eldoc
@@ -31,12 +34,6 @@
  globals--theme        'gruvbones                 ; Theme variable
  globals--leader-key   "<SPC>"                    ; Leader prefix key used for most bindings
  )
-
-(when window-system
-  (blink-cursor-mode 0) ; Disable the cursor blinking
-  (scroll-bar-mode 0)   ; Disable the scroll bar
-  (tool-bar-mode 0)     ; Disable the tool bar
-  (tooltip-mode 0))     ; Disable the tooltips
 
 (setq-default
  ad-redefinition-action 'accept                   ; Silence warnings for redefinition
@@ -97,9 +94,6 @@
 
 (add-to-list 'custom-theme-load-path (expand-file-name "etc/themes/" user-emacs-directory))
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-
 (add-to-list 'exec-path "/home/pedro/.cabal/bin") ;; Adjust this to where `agda-mode` is located
 (setenv "PATH" (concat "/home/pedro/.cabal/bin:" (getenv "PATH")))
 
@@ -124,8 +118,6 @@
  '(font-lock-comment-delimiter-face ((t (:slant italic))))
  '(font-lock-comment-face ((t (:slant italic))))
  '(symbol-overlay-default-face ((t (:inherit highlight :underline t)))))
-
-(setq-default line-spacing 0.1)
 
 ;; Set fallback font for missing Unicode characters
 (when (member "Symbols Nerd Font" (font-family-list))
@@ -597,3 +589,9 @@ See URL `https://github.com/ProofGeneral/PG/issues/427'."
 
 ;; Hook the function to run after compilation finishes
 (add-hook 'compilation-finish-functions 'my/clean-compilation-buffer)
+
+(when window-system
+  (blink-cursor-mode 0) ; Disable the cursor blinking
+  (scroll-bar-mode 0)   ; Disable the scroll bar
+  (tool-bar-mode 0)     ; Disable the tool bar
+  (tooltip-mode 0))     ; Disable the tooltips
