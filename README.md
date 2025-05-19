@@ -9,7 +9,7 @@ I use Arch btw.
 
 #### LLM API
 
-You need to set an environment variable for you groq api key to have acess to llm stuff; it requires an account
+You need to set an environment variable for you groq api key to have access to LLM stuff; it requires an account
 
 - `GROQ_API_KEY` [Groq API key](https://console.groq.com/keys)
 

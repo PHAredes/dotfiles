@@ -22,7 +22,7 @@ return {
   -- Não perguntar confirmação ao fechar a janela
   window_close_confirmation = 'NeverPrompt',
 
-  color_scheme = 'Gruvbox Dark (Gogh)',
+  color_scheme = 'zenwritten_light',
   -- Detecção de URLs
   hyperlink_rules = {
     -- Regras padrão para detectar URLs

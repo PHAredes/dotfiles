@@ -1,13 +1,8 @@
-# p10k setup
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # OMZ setup
 export ZSH="$HOME/.oh-my-zsh"
 
 # Set p10k as OMZ theme
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="minimal"
 
 plugins=(
   git
@@ -27,12 +22,6 @@ alias hypr="vim ~/.config/hypr/hyprland.conf"
 alias ohmyzsh="mate ~/.oh-my-zsh"
 alias update-bend="cargo install hvm bend-lang bend-language-server"
 
-# source p10k, run `p10k configure` or edit ~/.p10k.zsh to customize
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# source colorscheme
-source ~/gruvbox-material-dark.zsh
-
 # Mise setup
 eval "$(~/.local/bin/mise activate zsh)"
 
@@ -46,5 +35,5 @@ source ~/.secrets
 
 # cabal varenv
 export PATH=$HOME/.cabal/bin:$PATH
-
+alias k-serve="start.sh"
 export EDITOR="emacsclient -nw -c -a ''"

@@ -4,3 +4,6 @@ chezscheme = "latest"
 idris2 = "latest"
 node = "latest"
 python = "latest"
+
+[settings]
+experimental = true
