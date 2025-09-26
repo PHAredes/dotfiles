@@ -6,7 +6,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("ce8f04cf77435c027c696397378136d8dba4865104d6cb781fe6c2ac2aed2dea"
+   '("59cf109707de43c2d055e6ec4ce1fc37b40d87b5fdedd9d3e26d9c451116fa3a"
+     "ce8f04cf77435c027c696397378136d8dba4865104d6cb781fe6c2ac2aed2dea"
      "1d5e26b375169adb28df8b658ee4f40b330e21a9e05c962f3c53d83ca060f2bb"
      "1b32892ed4e7afb8fe276f68b8e249c79d03534b06cb68f3fef9404cb2b28894"
      "046a2b81d13afddae309930ef85d458c4f5d278a69448e5a5261a5c78598e012"
@@ -18,6 +19,7 @@
      "72ed8b6bffe0bfa8d097810649fd57d2b598deef47c992920aef8b5d9599eefe"
      "d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7"
      "3e374bb5eb46eb59dbd92578cae54b16de138bc2e8a31a2451bf6fdb0f3fd81b" default))
+ '(doom-modeline-check-simple-format t nil nil "Customized with use-package doom-modeline")
  '(haskell-process-show-debug-tips nil)
  '(package-selected-packages
    '(0x0 autothemer bind-key bnf-mode cape company doom-modeline eev eglot eldoc
@@ -32,7 +34,7 @@
 
 (setq
  globals--email        (getenv "EMAIL")           ; Email for GPG encryption
- globals--theme        'zenwritten-light          ; Theme variable
+ globals--theme        'gruvbones          ; Theme variable
  globals--leader-key   "<SPC>"                    ; Leader prefix key used for most bindings
  )
 
@@ -130,7 +132,7 @@
 (require 'autothemer)
 
 ;; Load the Gruvbones theme
-(load-theme 'zenwritten-light t)
+(load-theme 'gruvbones t)
 
 ;; ================= Motion Extension ===================
 ;; Evil mode
@@ -238,49 +240,6 @@
 
 ;; native emacs M-. 
 (evil-define-key '(normal visual) 'global (kbd "<leader> d") 'xref-find-definitions)
-
-(evil-define-key 'normal 'global (kbd "<leader> k g") 'kolmo-gen)
-(evil-define-key 'normal 'global (kbd "<leader> k c") 'kolmo-chk)
-(evil-define-key 'normal 'global (kbd "<leader> k r") 'kolmo-run)
-(evil-define-key 'normal 'global (kbd "<leader> k h") 'kolmo-gen-here)
-
-(defun kolmo-command (cmd)
-  "Execute a Kolmo command on a side-window."
-  (let ((filename (buffer-file-name))
-        (output-buffer (get-buffer-create "*Kolmo Output*")))
-    (when filename
-      ;; Ensure the output buffer is displayed in a side-window
-      (unless (get-buffer-window output-buffer)
-        (display-buffer output-buffer '((display-buffer-in-side-window)
-                                       (side . right)
-                                       (window-width . 0.4))))
-      ;; Run the command, directing output to the output buffer
-      (async-shell-command (format "ts-node ~/Repos/Kolmo/kolmo-ts/src/Main.ts %s %s" cmd filename)
-                          output-buffer
-                          output-buffer))))
-
-(defun kolmo-gen ()
-  "Synthesize a program via NeoGen on the current buffer's file."
-  (interactive)
-  (kolmo-command "gen"))
-
-(defun kolmo-chk ()
-  "Type check the current buffer's file."
-  (interactive)
-  (kolmo-command "chk"))
-
-(defun kolmo-run ()
-  "Run the current buffer's file."
-  (interactive)
-  (kolmo-command "run"))
-
-(defun kolmo-gen-here ()
-  "Insert the output of kolmo-gen at the current point."
-  (interactive)
-  (let ((filename (buffer-file-name)))
-    (when filename
-      (let ((output (shell-command-to-string (format "ts-node ~/Repos/Kolmo/kolmo-ts/src/Main.ts %s %s" "gen" filename))))
-        (insert output)))))
 
 ;; Helper functions
 (defun rename-file-and-buffer ()
@@ -427,6 +386,7 @@
   (let ((texto (buffer-substring (region-beginning) (region-end))))
     (delete-region (region-beginning) (region-end))
     (insert "(find-chrome \"" texto "\")")))
+
 ;; ====================== Macros ==========================
 
 ;; This appends the line to TODO file
@@ -573,20 +533,6 @@ See URL `https://github.com/ProofGeneral/PG/issues/427'."
 (advice-add #'evil-motion-range :around #'~/evil-motion-range--wrapper)
 
 
-;; ================= HVM-mode ====================
-
-;; Add custom lisp directory to load path
-
-(add-to-list 'load-path "~/Repos/HVM-mode/")
-
-;; Load HVM mode
-(require 'hvm-mode)
-
-(add-to-list 'auto-mode-alist '("\\.kolmo\\'" . hvm-mode))
-
-;; Optional: One-time byte compilation (comment out after running)
-;; (byte-compile-file "~/.emacs.d/lisp/hvm-mode.el")
-
 ;; ============== Magit ===================
 
 (require 'magit)
@@ -623,7 +569,6 @@ See URL `https://github.com/ProofGeneral/PG/issues/427'."
   (tool-bar-mode 0)     ; Disable the tool bar
   (tooltip-mode 0))     ; Disable the tooltips
 (put 'dired-find-alternate-file 'disabled nil)
-
 
 ;; ================== Mise =====================
 ;; See: https://www.emacswiki.org/emacs/ExecPath

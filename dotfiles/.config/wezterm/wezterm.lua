@@ -39,13 +39,13 @@ return {
 	-- Esconder decorações da janela
 	window_decorations = "NONE",
 
-	-- Atraso de entrada (equivalente a input_delay 1)
-	-- WezTerm não tem configuração direta para isso, mas é geralmente rápido o suficiente
-
 	-- Desativar som de campainha
 	audible_bell = "Disabled",
 
 	-- Configuração para Wayland
 	enable_wayland = true,
 	enable_tab_bar = false,
+
+  -- Settar o shell como nushell
+  default_prog = { "nu" }
 }
