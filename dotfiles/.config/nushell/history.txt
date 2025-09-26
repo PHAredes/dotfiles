@@ -1,0 +1,155 @@
+ls
+config nu
+$env.config.buffer_editor = "emacsclient"
+config nu
+clear
+Repos/
+ls | sort-by | size
+ls | sort-by size
+clear
+ls
+ls -la
+clear
+emacsclient -a ~/.config/wezterm/wezterm.lua
+emacsclient ~/.config/wezterm/wezterm.lua
+clear
+cd .config
+..
+ls
+rm .zshrc
+clear
+yay -Rcs zsh
+fzf
+clear
+fzf -h
+clear
+yay -Rcs `#.zshrc.pre-oh-my-zsh#` fzf
+yay -Rcs fzf
+clear
+lazygit
+vim .zshrc
+config nu
+$env.config.buffer_editor = "emacsclient"
+uninstall_oh_my_zsh
+yay -S zsh
+yay -Rcs zsh
+config nu
+$env.config.buffer_editor = "vim"
+config nu
+where mise
+curl https://mise.run/nu | sh
+curl https://mise.run/nushell | sh
+^mise activate nu | save -f ($nu.default-config-dir | path join 'vendor/autoload/mise.nu')
+mise activate nu | save -f ($nu.default-config-dir | path join 'vendor/autoload/mise.nu')
+'<\n>let mise_path = $nu.default-config-dir | path join mise.nu<\n>^mise activate nu | save $mise_path --force<\n>' | save $nu.env-path --append<\n>"\nuse ($nu.default-config-dir | path join mise.nu)" | save $nu.config-path --append
+mise update
+config nu
+$env.config.buffer_editor = "vim"
+config nu
+mise
+open a.lagda.md
+config nu
+$env.config.buffer_editor = "vim"
+config nu
+vim .config/nushell/env.nu
+config nu
+$env.config.buffer_editor = "vim"
+config nu
+emacs -nw
+emacs --daemon
+config nu
+curl https://mise.run | sh
+mise
+/home/pedro/.local/bin/mise --help
+/home/pedro/.local/bin/mise -E
+/home/pedro/.local/bin/mise -E --help
+'<\n>let mise_path = $nu.default-config-dir | path join mise.nu<\n>^mise activate nu | save $mise_path --force<\n>' | save $nu.env-path --append<\n>"\nuse ($nu.default-config-dir | path join mise.nu)" | save $nu.config-path --append
+config nu
+$env.config.buffer_editor = "vim"
+vim .config/nushell/mise.nu
+"\n$env.NU_LIB_DIRS ++= ($mise_path | path dirname | to nuon)" | save $nu.env-path --append
+vim .config/nushell/mise.nu
+rm mise.nu
+ls
+clear
+ls .config/nushell
+cd nushell/
+nushell/
+cd .config/nushell/
+ls
+rm mise.nu
+vim config.nu
+clear
+ls
+vim env.nu
+cargo install cargo-binstall<\n>cargo binstall mise
+par-lang playground
+cd Repos/par-lang/
+cd ..
+where cargo
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+where cargo
+which cargo
+par-lang playground
+$ cargo install --path .<\n>
+cargo install --path .
+cd par-lang/
+cargo install --path .
+config nu
+clear
+cargo install mise
+mise --help
+mise activate nu | save -f ($nu.default-config-dir | path join 'vendor/autoload/mise.nu')
+mise activate
+clear
+par-lang playground
+reboot
+which sh
+hypr
+emacs .bashrc -nw\
+hypr
+emacs -nw .bashrc
+clear
+config nu
+hypr
+holefill
+.bashrc
+config nu
+cat | nu
+cat | config nu
+where config nu
+config nu
+ls .config/nushell/ -r
+ls .config/nushell/
+ls -f .config/nushell/
+ls -r .config/nushell/
+ls -D .config/nushell/
+ls .config/nushell/ | ls .config/nushell/misc/
+ls .config/nushell/ .config/nushell/misc/
+par-lang playground
+reboot
+yay
+yay --no-confirm
+yay
+zshrc
+vim .zshrc
+clear
+where zshrc
+cleasr
+clear
+cl
+ls
+rm `#a.agda#`
+cl
+ls
+ls Repos/
+cd Repos/misc/
+ls
+clear
+cd ..
+cd
+cl
+ls
+ls PDFs/
+ls .ssh
+cp .config/nushell/ dotfiles/dotfiles/.config/
