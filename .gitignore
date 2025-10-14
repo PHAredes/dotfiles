@@ -1,0 +1,45 @@
+# Editor temporary files
+dotfiles/.emacs.d/elpa
+dotfiles/.emacs.d/eln-cache
+dotfiles/.emacs.d/projects
+dotfiles/.emacs.d/recentf
+dotfiles/.emacs.d/tags.json
+dotfiles/.emacs.d/transient/history.el
+dotfiles/.emacs.d/CNAME
+dotfiles/.emacs.d/auto-save-list
+dotfiles/.emacs.d/eln-cache
+dotfiles/.emacs.d/backups/
+dotfiles/.emacs.d/.emacs.desktop
+*~
+\#*\#
+.#*
+
+# Package managers and environment
+.ghcup/env
+.npm/
+.cargo/
+.local/share/
+.cache/
+.bash_history
+.zsh_history
+
+# Secrets and credentials
+.secrets
+.ssh/
+.gnupg/
+.aws/
+.kube/
+.config/gcloud/
+.netrc
+
+# Application specific
+.vscode/
+.mozilla/
+.chrome/
+.config/discord/
+.config/spotify/
+
+# OS specific
+.DS_Store
+Thumbs.db
+*.elc
