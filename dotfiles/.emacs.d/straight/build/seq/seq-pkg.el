@@ -1,0 +1,1 @@
+/home/pha/.emacs.d/straight/repos/seq/seq-pkg.el

@@ -1,0 +1,1 @@
+/home/pha/.emacs.d/straight/repos/agda/src/data/emacs-mode/agda2-abbrevs.el

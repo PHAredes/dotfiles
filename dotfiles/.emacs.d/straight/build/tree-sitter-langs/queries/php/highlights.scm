@@ -1,0 +1,1 @@
+/home/pha/.emacs.d/straight/repos/tree-sitter-langs/queries/php/highlights.scm

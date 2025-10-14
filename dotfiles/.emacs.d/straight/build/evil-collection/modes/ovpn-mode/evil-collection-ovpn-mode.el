@@ -1,0 +1,1 @@
+/home/pha/.emacs.d/straight/repos/evil-collection/modes/ovpn-mode/evil-collection-ovpn-mode.el

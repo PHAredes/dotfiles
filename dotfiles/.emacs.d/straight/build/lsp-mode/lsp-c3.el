@@ -1,0 +1,1 @@
+/home/pha/.emacs.d/straight/repos/lsp-mode/clients/lsp-c3.el

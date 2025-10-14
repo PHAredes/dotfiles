@@ -1,0 +1,22 @@
+;; Emacs-W3 HTTP cookies file
+;; Automatically generated file!!! DO NOT EDIT!!!
+
+(setq url-cookie-storage
+ 'nil
+)
+(setq url-cookie-secure-storage
+ '(("discord.com"
+  [url-cookie "__dcfduid" "026ab0f01bc111f08ab20d17b06e3bd1"
+              "Tue Apr 16 19:20:22 2030 GMT" "/" "discord.com" t]
+  [url-cookie "__sdcfduid"
+              "026ab0f11bc111f08ab20d17b06e3bd1d81a3a159c195f288af49f37b6b749572f1c4e39b2e8780e0e4100ee121f34e5"
+              "Tue Apr 16 19:20:22 2030 GMT" "/" "discord.com" t]))
+)
+
+;; Local Variables:
+;; version-control: never
+;; no-byte-compile: t
+;; coding: utf-8-emacs-unix
+;; End:
+
+;;; cookies ends here

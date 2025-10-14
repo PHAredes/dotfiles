@@ -1,0 +1,12 @@
+[tools]
+bun = "latest"
+cargo = "latest"
+node = "latest"
+npm = "latest"
+php = "latest"
+postgres = "latest"
+python = "latest"
+usage = "latest"
+
+[settings]
+experimental = true
