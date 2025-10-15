@@ -301,17 +301,10 @@
   (kbd "<leader> s g") 'igist-dispatch
   (kbd "<leader> o b") 'breww2
   (kbd "<leader> o w") 'breww2
-  (kbd "<leader> g g") 'magit-status
-  (kbd "<leader> g b") 'magit-blame
-  (kbd "<leader> g l") 'magit-log
-  (kbd "<leader> g p") 'magit-push
-  (kbd "<leader> g P") 'magit-pull)
+  (kbd "<leader> g") 'magit-status)
 
 (evil-define-key '(normal visual) 'global
   (kbd "<leader> /") 'evil-commentary-line)
-
-(evil-define-key 'normal 'global (kbd "<leader> g") nil)
-(evil-define-key 'visual 'global (kbd "<leader> g") nil)
 
 (global-set-key (kbd "M-i") 'symbol-overlay-put)
 (global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)

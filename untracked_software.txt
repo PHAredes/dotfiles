@@ -1,0 +1,72 @@
+### Development
+*   act
+*   bun
+*   cabal
+*   cargo
+*   code (VSCode)
+*   codeium
+*   composer
+*   create-next-app-nodejs
+*   docker
+*   dotnet
+*   electron-gyp
+*   gemini
+*   ghcup
+*   git (from .gitconfig)
+*   npm
+*   nvm
+*   nextjs-nodejs
+*   rustup
+*   stack
+*   vscode
+*   yarn
+*   yazi
+
+### Desktop Environment & Window Managers
+*   cosmic
+*   hypr
+*   Kvantum
+*   swaylock
+*   wlogout
+*   wofi
+
+### System & Utilities
+*   alacritty
+*   btop
+*   cachyos
+*   dconf
+*   easyeffects
+*   gnupg
+*   goverlay
+*   gtk-3.0
+*   gtk-4.0
+*   MangoHud
+*   micro
+*   mise
+*   nemo
+*   noisetorch
+*   oh-my-zsh
+*   pipewire
+*   pki
+*   qt5ct
+*   rofi
+*   ssh
+*   systemd
+*   yay
+*   zsh (from .zsh_history, .zcompdump*)
+
+### Applications
+*   BraveSoftware
+*   evolution
+*   geary
+*   google-chrome
+*   obs-studio
+*   octopi
+*   pos-system
+*   qalculate
+*   ranger
+*   ryzen-controller
+*   spotify
+*   Vencord
+*   vesktop
+*   Windsurf

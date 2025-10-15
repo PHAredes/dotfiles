@@ -34,7 +34,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # ============= Zoxide Config =============
 export _ZO_ECHO=1
-export _ZO_EXCLUDE_DIRS="$HOME/.cache:$HOME/.local/share"
+export _ZO_EXCLUDE_DIRS="$HOME/.cache:$HOME/.local/share/node_modules"
 export _ZO_FZF_OPTS="--height=40% --layout=reverse"
 export _ZO_RESOLVE_SYMLINKS=1
 
