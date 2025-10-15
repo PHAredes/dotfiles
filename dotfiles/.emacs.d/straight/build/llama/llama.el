@@ -1,1 +1,0 @@
-/home/pha/.emacs.d/straight/repos/llama/llama.el

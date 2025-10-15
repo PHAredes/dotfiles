@@ -1,1 +1,0 @@
-/home/pha/.emacs.d/straight/repos/haskell-mode/haskell-string.el

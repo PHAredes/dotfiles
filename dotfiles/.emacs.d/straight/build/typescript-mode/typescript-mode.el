@@ -1,1 +1,0 @@
-/home/pha/.emacs.d/straight/repos/typescript.el/typescript-mode.el

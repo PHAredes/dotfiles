@@ -1,4 +1,8 @@
-;; init.el --- Uma configuração moderna e organizada para Emacs
+;;; init.el
+
+;; ============= Performance Boost =============
+(setq gc-cons-threshold (* 50 1000 1000))
+(setq read-process-output-max (* 1024 1024))
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -15,6 +19,12 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+
+;; Silencia mensagens de loading
+(setq inhibit-message t)
+(add-hook 'after-init-hook (lambda () (setq inhibit-message nil)))
+(setq load-prefer-newer t)
+(setq native-comp-async-report-warnings-errors nil)
 
 (straight-use-package 'use-package)
 
@@ -99,7 +109,6 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (defun pedro-config/gui-setup ()
-  "Configurações visuais que dependem de um frame gráfico."
   (interactive)
   (set-face-attribute 'default nil :family "Cascadia Code PL" :height 120)
   (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
@@ -113,10 +122,6 @@
                 (pedro-config/gui-setup)))))
 
 (when (display-graphic-p)
-  (pedro-config/gui-setup))
-
-(use-package evil
-  :straight t
   (pedro-config/gui-setup))
 
 ;; ============= Evil Mode =============
@@ -153,34 +158,34 @@
   :after evil
   :config (evil-commentary-mode 1))
 
-;; ============= Completion (Corfu + Cape) =============
+;;; ============= Completion (Corfu + Cape) =============
 (use-package corfu
   :straight t
   :custom
-  (corfu-cycle t)
-  (corfu-auto t)
-  (corfu-auto-delay 0.2)
-  (corfu-auto-prefix 2)
-  (corfu-quit-no-match 'separator)
+  (corfu-auto nil)
   (corfu-preview-current nil)
-  (corfu-preselect 'prompt)
-  :bind (:map corfu-map
-              ("TAB" . corfu-next)
-              ([tab] . corfu-next)
-              ("S-TAB" . corfu-previous)
-              ([backtab] . corfu-previous))
   :init
   (global-corfu-mode))
+
+(use-package corfu-candidate-overlay
+  :straight (:type git
+             :repo "https://code.bsdgeek.org/adam/corfu-candidate-overlay"
+             :files (:defaults "*.el"))
+  :after corfu
+  :config
+  (corfu-candidate-overlay-mode +1)
+  (global-set-key (kbd "TAB") 
+    (lambda () 
+      (interactive)
+      (or (corfu-candidate-overlay-complete-at-point)
+          (indent-for-tab-command)))))
 
 (use-package cape
   :straight t
   :init
-  ;; Add completion backends
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-  (add-to-list 'completion-at-point-functions #'cape-tex))
-;; ============= Unicode/LaTeX Math Input =============
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block))
 
 (use-package which-key
   :straight t
@@ -242,27 +247,85 @@
   (make-directory desktop-dirname t))
 
 (desktop-save-mode 1)
+
+(setq savehist-file (expand-file-name "savehist" user-emacs-directory)
+      savehist-additional-variables '(search-ring regexp-search-ring kill-ring)
+      history-length 1000
+      history-delete-duplicates t
+      savehist-save-minibuffer-history t)
+
+(savehist-mode 1)
+
+(setq save-place-file (expand-file-name "saveplace" user-emacs-directory))
+(save-place-mode 1)
+
+(setq recentf-save-file (expand-file-name "recentf" user-emacs-directory)
+      recentf-max-saved-items 200
+      recentf-max-menu-items 15
+      recentf-auto-cleanup 'never)
+
+(recentf-mode 1)
+
+(add-hook 'kill-emacs-hook #'desktop-save-in-desktop-dir)
+
+;; ============= Keybindings =============
+(setq globals--leader-key "<SPC>")
+(evil-set-leader 'normal (kbd globals--leader-key))
+(evil-set-leader 'visual (kbd globals--leader-key))
+
+(setq consult-fd-args "fd --color=never --full-path --hidden --exclude .git")
+
+(evil-define-key 'normal 'global
+  (kbd "<leader> SPC") 'consult-find
+  (kbd "<leader> ,") 'consult-buffer
+  (kbd "<leader> .") 'find-file
+  (kbd "<leader> :") 'execute-extended-command
+  (kbd "<leader> f f") (lambda () (interactive) (consult-fd "~/"))
+  (kbd "<leader> f r") 'consult-recent-file
+  (kbd "<leader> f R") 'crux-rename-file-and-buffer
+  (kbd "<leader> f d") 'crux-delete-file-and-buffer
+  (kbd "<leader> t")   'eat
+  (kbd "<leader> f s") 'save-buffer
+  (kbd "<leader> b n") 'next-buffer
+  (kbd "<leader> b p") 'previous-buffer
+  (kbd "<leader> b b") 'consult-buffer
+  (kbd "<leader> b k") 'kill-buffer
+  (kbd "<leader> b l") 'eval-buffer
+  (kbd "<leader> s s") 'consult-line
+  (kbd "<leader> s p") 'consult-ripgrep
+  (kbd "<leader> d") 'xref-find-definitions
+  (kbd "<leader> h") 'symbol-overlay-remove-all
   (kbd "<leader> q s") 'desktop-save
   (kbd "<leader> q l") 'desktop-read
   (kbd "<leader> s u") 'upload-0x0
   (kbd "<leader> s g") 'igist-dispatch
   (kbd "<leader> o b") 'breww2
-  (kbd "<leader> o w") 'breww2)
+  (kbd "<leader> o w") 'breww2
+  (kbd "<leader> g g") 'magit-status
+  (kbd "<leader> g b") 'magit-blame
+  (kbd "<leader> g l") 'magit-log
+  (kbd "<leader> g p") 'magit-push
+  (kbd "<leader> g P") 'magit-pull)
 
 (evil-define-key '(normal visual) 'global
-  (kbd "<leader> /") 'evil-commentary-line
-  (kbd "<leader> g") 'gptel-menu
-  (kbd "S-SPC") 'gptel-send)
+  (kbd "<leader> /") 'evil-commentary-line)
+
+(evil-define-key 'normal 'global (kbd "<leader> g") nil)
+(evil-define-key 'visual 'global (kbd "<leader> g") nil)
 
 (global-set-key (kbd "M-i") 'symbol-overlay-put)
 (global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)
 (global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
 (global-set-key (kbd "<f7>") 'symbol-overlay-mode)
 
+;; ============= Git =============
 (use-package magit
   :straight t
-  :custom (magit-auto-revert-mode t))
+  :custom
+  (magit-auto-revert-mode t)
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
+;; ============= Tools =============
 (use-package symbol-overlay
   :straight t
   :demand t
@@ -270,58 +333,117 @@
   (symbol-overlay-mode 1)
   (set-face-attribute 'symbol-overlay-default-face nil :inherit 'highlight :underline t))
 
-(use-package gptel
-  :straight t
-  :config
-  (setq gptel-backend
-        (gptel-make-openai "Groq"
-          :host "api.groq.com"
-          :endpoint "/openai/v1/chat/completions"
-          :stream t
-          :key #'gptel-api-key-from-auth-source
-          :models '(meta-llama/llama-4-maverick-17b-128e-instruct
-                    llama-3.3-70b-versatile
-                    qwen-2.5-coder-32b
-                    qwen-qwq-32b
-                    deepseek-r1-distill-llama-70b
-                    deepseek-r1-distill-qwen-32b)))
-  (gptel-make-ollama "Ollama"
-    :host "localhost:11434"
-    :stream t
-    :models '(deepseek-r1:1.5b)))
-
 (use-package igist :straight t :custom (igist-auth-marker 'igist))
 (use-package 0x0 :straight t :config (defalias 'upload-0x0 'ee-0x0-upload-region))
 (use-package mise :straight t :demand t :config (global-mise-mode))
 
+;; ============= Terminal (Eat) =============
+(use-package eat
+  :straight t
+  :custom
+  (eat-term-name "xterm-256color")
+  (eat-kill-buffer-on-exit t)
+  :config
+  (add-hook 'eshell-mode-hook #'eat-eshell-mode))
+
+;; ============= LSP =============
+(use-package lsp-mode
+  :straight t
+  :commands lsp
+  :hook ((typescript-mode . lsp)
+         (haskell-mode . lsp)
+         (haskell-literate-mode . lsp))
+  :config
+  (setq lsp-haskell-server-path "haskell-language-server-wrapper")
+  (setq lsp-haskell-server-args '("--lsp"))
+  (setq lsp-idle-delay 0.5)
+  (setq lsp-enable-file-watchers nil)
+  (setq lsp-enable-symbol-highlighting nil)
+  (setq lsp-lens-enable nil)
+  (setq lsp-completion-provider :none))
+
+(use-package lsp-ui
+  :straight t
+  :commands lsp-ui-mode
+  :hook (lsp-mode . lsp-ui-mode))
+
+;; ============= Languages =============
 (use-package haskell-mode
   :straight t
   :hook
   ((haskell-mode . interactive-haskell-mode)
    (haskell-mode . turn-on-haskell-doc-mode)
-   (haskell-mode . turn-on-haskell-indentation)
-   (haskell-mode . lsp)
-   (haskell-literate-mode . lsp)))
+   (haskell-mode . turn-on-haskell-indentation)))
 
-(use-package lsp-mode
+(use-package typescript-mode
   :straight t
-  :commands lsp
-  :hook (lsp-mode . lsp-ui-mode)
+  :mode (("\\.ts\\'" . typescript-mode)
+         ("\\.tsx\\'" . typescript-mode))
   :config
-  (setq lsp-haskell-server-path "haskell-language-server-wrapper")
-  (setq lsp-haskell-server-args '("--lsp")))
+  (setq typescript-indent-level 2))
 
-(use-package lsp-ui
+(use-package tree-sitter
   :straight t
-  :commands lsp-ui-mode)
+  :config
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
-(use-package company
+(use-package tree-sitter-langs
   :straight t
-  :hook ((prog-mode . company-mode))
-  :config (setq company-idle-delay 0.2))
+  :after tree-sitter)
 
-;; ================= Eev configurations ======================
+(use-package prettier-js
+  :straight t
+  :hook ((typescript-mode . prettier-js-mode)
+         (js-mode . prettier-js-mode)))
 
+;; ============= Agda =============
+(add-to-list 'auto-mode-alist '("\\.lagda.md\\'" . agda2-mode))
+
+;; Carrega agda-mode
+(load-file (let ((coding-system-for-read 'utf-8))
+             (shell-command-to-string "agda-mode locate")))
+
+;; Ativa agda-input globalmente
+(require 'agda-input)
+
+;; Ativa em todos os modos de texto e programação
+(add-hook 'text-mode-hook (lambda () (set-input-method "Agda")))
+(add-hook 'prog-mode-hook (lambda () (set-input-method "Agda")))
+
+;; Keybindings
+(global-set-key (kbd "C-c \\") (lambda () (interactive) (set-input-method "Agda")))
+(global-set-key (kbd "C-c C-\\") (lambda () (interactive) (deactivate-input-method)))
+
+(with-eval-after-load 'agda-input
+  (setq agda-input-translations
+        (delete '("Glb" . ("⨅"))
+                agda-input-translations))
+  (agda-input-setup))
+
+
+;; Customizações de highlight
+(require 'agda2-highlight)
+
+(cl-loop for (_ . face) in agda2-highlight-faces
+         do (when (and (string-prefix-p "agda2-" (symbol-name face))
+                       (not (equal face 'agda2-highlight-incomplete-pattern-face)))
+              (set-face-attribute face nil
+                                  :box (face-attribute face :background)
+                                  :background 'unspecified)))
+
+(set-face-attribute 'agda2-highlight-coverage-problem-face nil
+                    :underline (face-attribute 'agda2-highlight-coverage-problem-face :box)
+                    :box 'unspecified)
+
+(set-face-attribute 'agda2-highlight-deadcode-face nil
+                    :strike-through (face-attribute 'agda2-highlight-deadcode-face :box)
+                    :box 'unspecified)
+
+;; Keybinding para goto-definition no agda-mode
+(evil-define-key 'normal agda2-mode-map (kbd "<leader> d") 'agda2-goto-definition-keyboard)
+
+;; ============= Eev configurations =============
 (use-package eev
   :straight t
   :demand t
@@ -329,14 +451,9 @@
   (require 'eev-load)
   (require 'eev-aliases)
   (eev-mode 1)
-  
-  ;; Make the eev keymap take precedence over Evil's keymap
   (evil-make-overriding-map eev-mode-map 'normal)
-  
-  ;; Re-enable the eev keymap every time eev-mode is activated
   (add-hook 'eev-mode-hook #'evil-normalize-keymaps))
 
-;; Angg's site helper functions
 (defun find-angg (fname &rest rest)
   (apply 'find-wgeta (format "http://anggtwu.net/%s" fname) rest))
 
@@ -346,22 +463,17 @@
 (defun find-es (fname &rest rest)
   (apply 'find-wgeta (format "http://anggtwu.net/e/%s.e" fname) rest))
 
-;; Chrome/Browser integration
 (defvar ee-chrome-program "google-chrome-stable")
 (defun find-chrome (url) (find-bgprocess `(,ee-chrome-program ,url)))
 
 (global-set-key (kbd "C-c f") 'chrome-find)
 (defun chrome-find ()
-  "Substitui o texto selecionado por (find-chrome <Text>)"
   (interactive)
   (let ((texto (buffer-substring (region-beginning) (region-end))))
     (delete-region (region-beginning) (region-end))
     (insert "(find-chrome \"" texto "\")")))
 
-;; Fixed version of ee-copy-this-line-to-kill-ring
 (defun ee-copy-this-line-to-kill-ring (&optional arg)
-  "Copy the current line to the kill ring and highlight (\"flash\") it.
-With a prefix argument run `ee-copy-preceding-tag-to-kill-ring' instead."
   (interactive "P")
   (if arg (ee-copy-preceding-tag-to-kill-ring)
     (let* ((start (ee-bol-skip-invisible))
@@ -372,24 +484,15 @@ With a prefix argument run `ee-copy-preceding-tag-to-kill-ring' instead."
       (kill-new str)
       (message msg))))
 
-;; Copy current line to ~/-TODO
-;; M-211j and M-221j work similarly to M-21j
-;; M-311j and M-331j work similarly to M-31j
 (defun eejump-211 () (eek "yy   M-3 M-1 M-j   M-> p RET   C-x o"))
 (defun eejump-221 () (eek "yy   M-3 M-1 M-j   M-> p RET   C-x o"))
 (defun eejump-311 () (eek "yy   M-3 M-1 M-j   M-> p RET"))
 (defun eejump-331 () (eek "yy   M-3 M-1 M-j   M-> p RET"))
 
-;; EWW2 configuration for two-window browsing
 (defun find-eww2 (url &rest comments) (find-2a nil `(find-eww ,url)))
 (code-brurl 'find-eww2 :remote 'breww2 :local 'breww2l :dired 'breww2d)
 
-;; Optional keybinding for breww2
-;; (global-set-key (kbd "C-c 2") 'breww2)
-
-
-;; emacs do it alone
-
+;; ============= Environment =============
 (let ((custom-paths '("/home/pedro/.cabal/bin"
                        "/home/pedro/.local/bin"
                        "/home/pedro/.local/share/mise/shims")))
@@ -417,6 +520,3 @@ With a prefix argument run `ee-copy-preceding-tag-to-kill-ring' instead."
 (custom-set-faces)
 
 ;;; init.el ends here
-
-(load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda --emacs-mode locate")))

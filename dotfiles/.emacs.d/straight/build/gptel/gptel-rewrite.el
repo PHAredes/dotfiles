@@ -1,1 +1,0 @@
-/home/pha/.emacs.d/straight/repos/gptel/gptel-rewrite.el

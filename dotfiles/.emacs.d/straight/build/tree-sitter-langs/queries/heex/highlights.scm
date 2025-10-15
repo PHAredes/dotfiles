@@ -1,1 +1,0 @@
-/home/pha/.emacs.d/straight/repos/tree-sitter-langs/queries/heex/highlights.scm

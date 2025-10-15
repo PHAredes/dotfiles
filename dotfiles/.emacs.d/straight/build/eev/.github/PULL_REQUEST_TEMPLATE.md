@@ -1,1 +1,0 @@
-/home/pha/.emacs.d/straight/repos/eev/.github/PULL_REQUEST_TEMPLATE.md

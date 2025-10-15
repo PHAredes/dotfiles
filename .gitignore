@@ -1,5 +1,8 @@
 # Editor temporary files
+dotfiles/.emacs.d/eshell/
+dotfiles/.emacs.d/url/
 dotfiles/.emacs.d/elpa
+dotfiles/.lsp-session-v1
 dotfiles/.emacs.d/eln-cache
 dotfiles/.emacs.d/projects
 dotfiles/.emacs.d/recentf
@@ -10,6 +13,11 @@ dotfiles/.emacs.d/auto-save-list
 dotfiles/.emacs.d/eln-cache
 dotfiles/.emacs.d/backups/
 dotfiles/.emacs.d/.emacs.desktop
+dotfiles/.emacs.d/straight/repos
+dotfiles/.emacs.d/straight/repos
+dotfiles/.emacs.d/straight/repos
+dotfiles/.emacs.d/straight/build
+dotfiles/.emacs.d/straight/build-cache.el
 *~
 \#*\#
 .#*

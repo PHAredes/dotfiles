@@ -1,1 +1,0 @@
-/home/pha/.emacs.d/straight/repos/evil-collection/modes/hideshow/evil-collection-hideshow.el

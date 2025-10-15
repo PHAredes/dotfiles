@@ -1,1 +1,0 @@
-/home/pha/.emacs.d/straight/repos/tree-sitter-langs/queries/ecma/highlights.scm

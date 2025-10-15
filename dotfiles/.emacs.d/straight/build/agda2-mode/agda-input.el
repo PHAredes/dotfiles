@@ -1,1 +1,0 @@
-/home/pha/.emacs.d/straight/repos/agda/src/data/emacs-mode/agda-input.el
