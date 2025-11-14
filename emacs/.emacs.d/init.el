@@ -17,7 +17,7 @@
          "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
          'silent 'inhibit-cookies)
       (goto-char (point-max))
-      (eval-print-last-sexp)))
+      (eval-print-last-sexp)))          ;
   (load bootstrap-file nil 'nomessage))
 
 ;; Silencia mensagens de loading
@@ -110,10 +110,11 @@
 
 (defun pedro-config/gui-setup ()
   (interactive)
-  (set-face-attribute 'default nil :family "Cascadia Code PL" :height 120)
+  (set-face-attribute 'default nil :family "CaskaydiaCove Nerd Font Mono" :height 110)
   (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
   (set-face-attribute 'font-lock-comment-delimiter-face nil :slant 'italic)
-  (load-theme 'gruvbones t))
+  (load-theme 'matugen t))
+
 
 (add-hook 'after-make-frame-functions
           (lambda (frame)
@@ -174,8 +175,8 @@
   :after corfu
   :config
   (corfu-candidate-overlay-mode +1)
-  (global-set-key (kbd "TAB") 
-    (lambda () 
+  (global-set-key (kbd "TAB")
+    (lambda ()
       (interactive)
       (or (corfu-candidate-overlay-complete-at-point)
           (indent-for-tab-command)))))
@@ -513,3 +514,6 @@
 (custom-set-faces)
 
 ;;; init.el ends here
+
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda --emacs-mode locate")))
