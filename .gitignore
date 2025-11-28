@@ -18,6 +18,9 @@ dotfiles/.emacs.d/straight/repos
 dotfiles/.emacs.d/straight/repos
 dotfiles/.emacs.d/straight/build
 dotfiles/.emacs.d/straight/build-cache.el
+secrets.el
+secrets.elc
+
 *~
 \#*\#
 .#*

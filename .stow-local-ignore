@@ -1,2 +1,8 @@
 \.git
 ^/bin
+^\.emacs\.d/straight/
+README.md
+untracked_software.txt
+^\.emacd\.d/secrets.el
+^\.emacd\.d/secrets.elc
+
