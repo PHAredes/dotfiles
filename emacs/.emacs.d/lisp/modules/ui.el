@@ -1,4 +1,10 @@
-;;; modules/ui/config.el -*- lexical-binding: t; -*-
+;;; modules/ui.el -*- lexical-binding: t; -*-
+
+(use-package autothemer)
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+(use-package good-scroll
+  :config (good-scroll-mode 1))
 
 ;; Clean UI
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode 
@@ -63,9 +69,6 @@
 ;; ============= Theme & Fonts =============
 (add-to-list 'custom-theme-load-path (expand-file-name "etc/themes/" user-emacs-directory))
 
-(after! rainbow-delimiters
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-
 (defun setup-fonts ()
   "Configure fonts for GUI."
   (when (display-graphic-p)
@@ -84,5 +87,4 @@
 
 (load-theme 'gruvbones t)
 
-(after! good-scroll
-  (good-scroll-mode 1))
+(provide 'ui)

@@ -1,8 +1,8 @@
-;;; modules/lang/markdown/packages.el -*- lexical-binding: t; -*-
+;;; modules/lang-markdown.el -*- lexical-binding: t; -*-
 
 (use-package markdown-mode
-  :mode (("\.md\'" . markdown-mode)
-         ("\.markdown\'" . markdown-mode)
+  :mode ((".md\'" . markdown-mode)
+         (".markdown\'" . markdown-mode)
          ("README\.\(?:md\|markdown\)\'" . markdown-mode))
   :hook ((markdown-mode . visual-line-mode)
          (markdown-mode . flyspell-mode)
@@ -51,10 +51,22 @@
                           (append electric-pair-pairs '((?* . ?*)
                                                        (?_ . ?_)
                                                        (?` . ?`))))))
-
+  :config
+  (define-key markdown-mode-map (kbd "C-c C-c w") 'markdown-preview-eww)
   )
 
 (use-package markdown-toc
   :after markdown-mode
   :commands markdown-toc-generate-toc
 )
+
+(defun markdown-preview-eww ()
+  "Preview markdown in eww browser."
+  (interactive)
+  (let* ((tmp-file (make-temp-file "markdown-preview" nil ".html"))
+         (output-buffer (find-file-noselect tmp-file)))
+    (shell-command-on-region (point-min) (point-max)
+                            (format "pandoc -f markdown -t html5 -s --mathjax -o %s" tmp-file))
+    (eww-open-file tmp-file)))
+
+(provide 'lang-markdown)

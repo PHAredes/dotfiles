@@ -1,6 +1,6 @@
-;;; modules/lang/agda/config.el -*- lexical-binding: t; -*-
+;;; modules/lang-agda.el -*- lexical-binding: t; -*-
 
-(add-to-list 'auto-mode-alist '("\.lagda.md\'" . agda2-mode))
+(add-to-list 'auto-mode-alist '(".lagda.md\'" . agda2-mode))
 
 (with-eval-after-load 'agda2-mode
   (load-file (let ((coding-system-for-read 'utf-8))
@@ -12,4 +12,6 @@
 
 (load-file (let ((coding-system-for-read 'utf-8))
                 (shell-command-to-string "agda --emacs-mode locate")))
+
+(provide 'lang-agda)
 

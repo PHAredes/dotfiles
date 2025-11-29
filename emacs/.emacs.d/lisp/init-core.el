@@ -1,3 +1,35 @@
+;;; init-core.el --- Core Emacs settings -*- lexical-binding: t; -*-
+
+;; ============= Performance =============
+(setq gc-cons-threshold (* 50 1000 1000)
+      read-process-output-max (* 1024 1024)
+      gc-cons-percentage 0.6)
+
+;; ============= Environment & Session =============
+;; This should run last to ensure all paths and settings are established.
+
+;; Set PATH from shell
+(use-package exec-path-from-shell
+  :straight t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
+;; Environment variables
+(let ((paths '("/home/pedro/.cabal/bin"
+               "/home/pedro/.local/bin"
+               "/home/pedro/.local/share/mise/shims")))
+  (setenv "PATH" (concat (mapconcat 'identity paths ":") ":" (getenv "PATH")))
+  (setq exec-path (append paths exec-path)))
+
+;; Session management
+(setq desktop-dirname (expand-file-name "desktop/" user-emacs-directory)
+      desktop-path (list desktop-dirname)
+      desktop-restore-eager 8
+      save-place-file (expand-file-name "saveplace" user-emacs-directory))
+
+(desktop-save-mode 1)
+
 ;;; modules/core/config.el -*- lexical-binding: t; -*-
 
 ;; ============= Core Defaults =============
@@ -59,7 +91,6 @@
     (kbd "<leader>ss")  'consult-line
     (kbd "<leader>sp")  'consult-ripgrep
     
-    (kbd "<leader>t")   'eat
     (kbd "<leader>g")   'magit-status
     (kbd "<leader>d")   'xref-find-definitions
     (kbd "<leader>h")   'symbol-overlay-remove-all
@@ -72,3 +103,6 @@
 
   (evil-define-key '(normal visual) 'global
     (kbd "<leader>/") 'evil-commentary-line))
+
+(provide 'init-core)
+;;; init-core.el ends here

@@ -1,4 +1,4 @@
-;;; modules/completion/packages.el -*- lexical-binding: t; -*-
+;;; modules/completion.el -*- lexical-binding: t; -*-
 
 (use-package corfu
   :custom
@@ -44,3 +44,5 @@
 
 (use-package embark-consult
   :after (embark consult))
+
+(provide 'completion)

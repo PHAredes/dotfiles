@@ -1,4 +1,4 @@
-;;; modules/lang/haskell/packages.el -*- lexical-binding: t; -*-
+;;; modules/lsp.el -*- lexical-binding: t; -*-
 
 (use-package lsp-mode
   :commands lsp
@@ -17,6 +17,4 @@
   (lsp-ui-doc-enable nil)
   (lsp-ui-sideline-enable nil))
 
-(use-package haskell-mode
-  :hook ((haskell-mode . interactive-haskell-mode)
-         (haskell-mode . turn-on-haskell-indentation)))
+(provide 'lsp)

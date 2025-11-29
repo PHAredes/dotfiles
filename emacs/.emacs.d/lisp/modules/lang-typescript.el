@@ -1,4 +1,4 @@
-;;; modules/lang/typescript/packages.el -*- lexical-binding: t; -*-
+;;; modules/lang-typescript.el -*- lexical-binding: t; -*-
 
 (use-package typescript-mode
   :mode "\.tsx?\'"
@@ -6,4 +6,6 @@
 
 (use-package prettier-js
   :hook ((typescript-mode js-mode) . prettier-js-mode))
+
+(provide 'lang-typescript)
 

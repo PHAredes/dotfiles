@@ -1,107 +1,16 @@
-;;; init.el --- Modular Emacs Config -*- lexical-binding: t; -*-
+;;; init.el --- Entry point for the Emacs configuration -*- lexical-binding: t; -*-
 
-;; ============= Performance =============
-(setq gc-cons-threshold (* 50 1000 1000)
-      read-process-output-max (* 1024 1024)
-      gc-cons-percentage 0.6)
+;; Add the `lisp` directory to the load-path
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-;; ============= Package Manager (straight.el) =============
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el"
-                         user-emacs-directory))
-      (bootstrap-version 7))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+;; Load core configuration and package setup
+(require 'init-packages)
+(require 'init-core)
 
-(straight-use-package 'use-package)
-(setq straight-use-package-by-default t)
+;; Load all modules from the `lisp/modules` directory
+(let ((modules-dir (expand-file-name "lisp/modules" user-emacs-directory)))
+  (mapc #'load-file (directory-files-recursively modules-dir "\.el$")))
 
-;; ============= Module Loading System =============
-
-;; A helper macro for configurations to be run after a package is loaded.
-(defmacro after! (package &rest body)
-  "Evaluate BODY after PACKAGE is loaded."
-  `(with-eval-after-load ',package ,@body))
-
-;; Function to load a module's packages.el and config.el
-(defun load-module! (module-path)
-  "Load a module from a given path."
-  (let* ((module-dir (expand-file-name module-path user-emacs-directory))
-         (packages-file (expand-file-name "packages.el" module-dir))
-         (config-file (expand-file-name "config.el" module-dir)))
-    (when (file-exists-p packages-file)
-      (load packages-file nil 'nomessage))
-    (when (file-exists-p config-file)
-      (load config-file nil 'nomessage))))
-
-;; ============= Core Defaults & UI =============
-;; These are loaded before other modules to ensure a consistent base.
-(load-module! "modules/core")
-(load-module! "modules/ui")
-
-;; ============= Module Definitions =============
-;; List of all modules to load.
-(defvar enabled-modules
-  '(
-    ;; Core
-    "editor"
-    "completion"
-    
-    ;; Languages
-    "lang/agda"
-    "lang/go"
-    "lang/haskell"
-    "lang/markdown"
-    "lang/typescript"
-
-    ;; Tools
-    "tools"
-    "email"
-    "ai/gptel"
-    ))
-
-;; =ad-hoc module loader
-(defun load-modules (modules)
-  "Load a list of modules."
-  (dolist (module modules)
-    (load-module! (concat "modules/" module))))
-
-(load-modules enabled-modules)
-
-;; ============= Environment & Session =============
-;; This should run last to ensure all paths and settings are established.
-
-;; Set PATH from shell
-(use-package exec-path-from-shell
-  :straight t
-  :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
-
-;; Environment variables
-(let ((paths '("/home/pedro/.cabal/bin"
-               "/home/pedro/.local/bin"
-               "/home/pedro/.local/share/mise/shims")))
-  (setenv "PATH" (concat (mapconcat 'identity paths ":") ":" (getenv "PATH")))
-  (setq exec-path (append paths exec-path)))
-
-;; Session management
-(setq desktop-dirname (expand-file-name "desktop/" user-emacs-directory)
-      desktop-path (list desktop-dirname)
-      desktop-restore-eager 8
-      save-place-file (expand-file-name "saveplace" user-emacs-directory))
-
-(desktop-save-mode 1)
-
-
-;; ============= Final Customizations =============
 ;; Anything in here will be executed last.
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

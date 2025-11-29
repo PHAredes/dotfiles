@@ -1,4 +1,4 @@
-;;; modules/editor/packages.el -*- lexical-binding: t; -*-
+;;; modules/editor.el -*- lexical-binding: t; -*-
 
 (use-package evil
   :init
@@ -8,7 +8,8 @@
   :config
   (evil-mode 1)
   (define-key evil-motion-state-map (kbd "SPC") nil)
-  (define-key evil-motion-state-map (kbd "RET") nil))
+  (define-key evil-motion-state-map (kbd "RET") nil)
+  (define-key evil-motion-state-map (kbd "f") 'avy-goto-char))
 
 (use-package evil-collection
   :after evil
@@ -47,3 +48,5 @@
 
 (use-package tree-sitter-langs
   :after tree-sitter)
+
+(provide 'editor)

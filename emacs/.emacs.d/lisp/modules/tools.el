@@ -1,6 +1,22 @@
-;;; modules/tools/config.el -*- lexical-binding: t; -*-
+;;; modules/tools.el -*- lexical-binding: t; -*-
 
-(after! eev
+(use-package magit)
+
+(use-package igist
+  :custom (igist-auth-marker 'igist))
+
+(use-package 0x0
+  :config (defalias 'upload-0x0 'ee-0x0-upload-region))
+
+(use-package mise
+  :config (global-mise-mode))
+
+(use-package eev
+  :config
+  (require 'eev-load)
+  (eev-mode 1)
+  (evil-make-overriding-map eev-mode-map 'normal)
+  
   (defun find-angg (fname &rest rest)
     (apply 'find-wgeta (format "http://anggtwu.net/%s" fname) rest))
   
@@ -14,3 +30,5 @@
     (find-2a nil `(find-eww ,url)))
   
   (code-brurl 'find-eww2 :remote 'breww2 :local 'breww2l :dired 'breww2d))
+
+(provide 'tools)

@@ -1,7 +1,14 @@
-;;; modules/email/config.el -*- lexical-binding: t; -*-
-;; Add email-related configuration here.
+;;; modules/email.el -*- lexical-binding: t; -*-
 
-(after! mu4e
+(use-package mu4e
+  :straight nil
+  :defer t
+  :commands (mu4e mu4e-compose-new mu4e-update-mail-and-index)
+  :init
+  (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+  (global-set-key (kbd "C-c m") 'mu4e)
+  (global-set-key (kbd "C-c M") 'mu4e-compose-new)
+  :config
   ;; Diretórios
   (setq mu4e-maildir "~/Mail"
         mu4e-attachment-dir "~/Downloads"
@@ -122,7 +129,10 @@
   (define-key mu4e-headers-mode-map (kbd "C-c c") 'mu4e-compose-new)
   (define-key mu4e-view-mode-map (kbd "C-c c") 'mu4e-compose-new))
 
-(after! consult-mu
+(use-package consult-mu
+  :straight (consult-mu :type git :host github :repo "armindarvish/consult-mu" :branch "main")
+  :after (consult mu4e)
+  :config
   ;;maximum number of results shown in minibuffer
   (setq consult-mu-maxnum 200)
   ;;show preview when pressing any keys
@@ -133,3 +143,5 @@
   (setq consult-mu-mark-viewed-as-read nil)
   ;; open the message in mu4e-view-buffer when selected.
   (setq consult-mu-action #'consult-mu--view-action))
+
+(provide 'email)
