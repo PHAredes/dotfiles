@@ -45,4 +45,19 @@
 (use-package embark-consult
   :after (embark consult))
 
+(use-package projectile
+  :diminish projectile-mode
+  :custom
+  (projectile-track-known-projects t)
+  (projectile-switch-project-action 'projectile-dired)
+  :init
+  (projectile-mode +1)
+  :bind
+  (("C-c p" . projectile-command-map)))
+
+(use-package consult-projectile
+  :after (consult projectile)
+  :config
+  (define-key projectile-command-map (kbd "f") 'consult-projectile))
+
 (provide 'completion)
