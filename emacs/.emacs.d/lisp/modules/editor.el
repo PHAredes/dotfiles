@@ -9,7 +9,7 @@
   (evil-mode 1)
   (define-key evil-motion-state-map (kbd "SPC") nil)
   (define-key evil-motion-state-map (kbd "RET") nil)
-  (define-key evil-motion-state-map (kbd "f") 'avy-goto-char))
+  (define-key evil-motion-state-map (kbd "f") 'avy-goto-char-timer))
 
 (use-package evil-collection
   :after evil
@@ -25,7 +25,8 @@
 
 (use-package avy
   :config
-  (setq avy-keys (number-sequence ?a ?z)))
+  (setq avy-keys (number-sequence ?a ?z)
+        avy-timeout-seconds 0.5))
 
 (use-package which-key
   :config

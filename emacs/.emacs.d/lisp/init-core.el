@@ -71,12 +71,11 @@
   (setq consult-fd-args "fd --color=never --full-path --hidden --exclude .git")
 
   (evil-define-key 'normal 'global
-    (kbd "<leader>SPC") 'consult-find
+    (kbd "<leader>SPC") 'consult-fd
     (kbd "<leader>,")   'consult-buffer
     (kbd "<leader>.")   'find-file
     (kbd "<leader>:")   'execute-extended-command
     
-    (kbd "<leader>ff")  (lambda () (interactive) (consult-fd "~/"))
     (kbd "<leader>fr")  'consult-recent-file
     (kbd "<leader>fR")  'crux-rename-file-and-buffer
     (kbd "<leader>fd")  'crux-delete-file-and-buffer
@@ -100,6 +99,9 @@
     
     (kbd "<leader>ob")  'breww2
     (kbd "<leader>ow")  'breww2)
+
+  (evil-define-key 'normal 'global
+    (kbd "<leader>ff") nil)
 
   (evil-define-key '(normal visual) 'global
     (kbd "<leader>/") 'evil-commentary-line))
